@@ -1,0 +1,103 @@
+/* @import '@fontsource/roboto/300.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css'; */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bungee+Tint&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Boldonse&family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* 
+! font-family: Space Grotesk, serif;
+! font-family: Roboto Condensed, serif;
+! font-family: Atkinson Hyperlegible Next serif;
+! font-family: 'Montserrat', serif;
+! font-family: 'Inter', sans-serif;
+! font-family: "Bungee Tint", sans-serif;
+! font-family: "Source Code Pro", monospace;
+! font-family: "Inter", sans-serif;
+! font-family: "Boldonse", system-ui;
+! font-family: "Winky Sans", sans-serif;
+! font-family: "Roboto", sans-serif;
+*/ 
+body {
+    /* background: linear-gradient(to bottom right, #f5f0ff, #e0d6ff, #d1c4ff); */
+    background: linear-gradient(135deg, #7e22ce, #ec4899, #f97316);
+
+    color: #333;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+header, footer {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+a:hover {
+    color: #7f00ff; 
+    background-color: rgba(127, 0, 255, 0.1);
+}
+
+a:hover {
+    color: #555; 
+}
+
+/* body { */
+  /* font-family: 'Space Grotesk', serif; */
+/* } */
+/* Selection */
+::selection {
+  background-color: black;
+  color: white;
+}
+::-webkit-scrollbar {
+    display: none;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #0E131F;
+    border-radius: 10px;
+}
+.font-roboto {
+    font-family: 'Roboto', sans-serif;
+}
+.font-winky-sans {
+    font-family: 'Winky Sans', sans-serif;
+}
+.font-boldonse {
+    font-family: 'Boldonse', system-ui;
+}
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+.font-source-code {
+    font-family: 'Source Code Pro', monospace;
+}
+.font-bungee-tint {
+    font-family: 'Bungee Tint', sans-serif;
+}
+.font-space-grotesk {
+    font-family: 'Space Grotesk', serif;
+}
+.font-roboto-condensed {
+    font-family: 'Roboto Condensed', serif;
+}
+.font-montserrat {
+    font-family: 'Montserrat', serif;
+}
