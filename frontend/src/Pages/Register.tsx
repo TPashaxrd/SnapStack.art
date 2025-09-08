@@ -59,7 +59,7 @@ export default function Register() {
     <>
       <Header />
       <div className="flex flex-col items-center justify-center mt-16 px-4 min-h-[calc(100vh-200px)]">
-        <div className="bg-black/50 backdrop-blur-md gap-6 rounded-2xl px-8 py-8 flex flex-col w-full max-w-md shadow-lg">
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-10 max-w-md w-full flex flex-col gap-6">
           <h1 className="text-3xl font-extrabold text-white text-center">Register to SnapStack</h1>
 
           {error && (
@@ -96,7 +96,7 @@ export default function Register() {
 
           <button
             onClick={Submit}
-            className="w-full py-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-lg transition shadow-lg"
+            className="w-full py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg transition shadow-lg"
           >
             Submit
           </button>

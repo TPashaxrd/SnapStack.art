@@ -70,7 +70,7 @@ export default function Login() {
             Login
           </button>
           <p className="text-white/70 text-center mt-2">
-            Don’t have an account? <span className="underline cursor-pointer hover:text-white">Register</span>
+            Don’t have an account? <span onClick={() => window.location.href = "/register" } className="underline cursor-pointer hover:text-white">Register</span>
           </p>
         </div>
       </div>

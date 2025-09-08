@@ -13,6 +13,18 @@ const ArtSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    comments: [
+        {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'Users'},
+            comment: { type: String, required: true },
+            date: { type: Date, default: Date.now }
+        } 
+    ],
+    tags: [String],
+    likes: {
+        type: Number,
+        default: 0
+    },
     date: {
         type: Date,
         default: Date.now()

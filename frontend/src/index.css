@@ -28,9 +28,10 @@
 ! font-family: "Roboto", sans-serif;
 */ 
 body {
-    /* background: linear-gradient(to bottom right, #f5f0ff, #e0d6ff, #d1c4ff); */
-    background: linear-gradient(135deg, #7e22ce, #ec4899, #f97316);
-
+    background-image: url('https://wallpapers.com/images/hd/non-copyrighted-retro-wave-style-s3rhyqiwlu0dlxlz.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
     color: #333;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;

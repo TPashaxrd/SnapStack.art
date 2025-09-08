@@ -1,87 +1,118 @@
 import { useEffect, useState } from "react";
-import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import axios from "axios";
+import { FaComment, FaHeart, FaBell, FaUser, FaUpload } from "react-icons/fa";
 
-interface MeData {
-  username: string;
-  email: string;
-  IP_Address: string;
-}
+export default function ReelsFeed() {
+  const [arts, setArts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [skip, setSkip] = useState(0);
+  const limit = 2;
+  const [hasMore, setHasMore] = useState(true);
 
-export default function App() {
-  const [userData, setUserData] = useState<MeData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
 
+  const fetchArts = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://localhost:5000/api/arts/all-arts?limit=${limit}&skip=${skip}`,
+        { withCredentials: true }
+      );
+  
+      if (res.data.length < limit) setHasMore(false);
+      setArts(prev => [...prev, ...res.data]);
+      setSkip(prev => prev + limit);
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const res = await axios.get<{ user: MeData }>("http://localhost:5000/api/user/me", { withCredentials: true });
-        setUserData(res.data.user);
-      } catch (err: any) {
-        console.error(err);
-        setError("Failed to fetch user data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMe();
+    fetchArts();
   }, []);
 
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (!hasMore || loading) return;
+  //     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 200) {
+  //       fetchArts();
+  //     }
+  //   };
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [hasMore, loading, skip]);
+
+  if (loading)
+    return (
+      <p className="text-white text-2xl font-bold animate-pulse min-h-screen flex items-center justify-center">
+        Loading...
+      </p>
+    );
+  if (error)
+    return (
+      <p className="text-red-500 text-xl font-semibold min-h-screen flex items-center justify-center">
+        {error}
+      </p>
+    );
+
   return (
-    <>
-      <Header />
-      <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 via-pink-500 to-orange-400 px-4">
-        {loading ? (
-          <p className="text-white text-2xl font-bold animate-pulse">Loading...</p>
-        ) : error ? (
-          <p className="text-red-500 text-xl font-semibold">{error}</p>
-        ) : userData ? (
-          // ✅ Kullanıcı giriş yaptıysa gösterilecek kart
-          <div className="bg-black/70 backdrop-blur-md rounded-3xl p-8 max-w-md w-full flex flex-col gap-6 shadow-2xl border border-white/20">
-            <h1 className="text-4xl font-extrabold text-white text-center">
-              Welcome back, {userData.username}!
-            </h1>
-            <div className="flex flex-col gap-3 text-center">
-              <p className="text-white/80">Email: {userData.email}</p>
-              <p className="text-white/80">Your IP: {userData.IP_Address}</p>
-            </div>
-            <button
-              onClick={() => window.location.href = "/profile"}
-              className="mt-4 w-full py-3 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl transition shadow-lg"
+    <div className="bg-gray-900 min-h-screen text-white flex flex-col">
+      <header className="sticky top-0 bg-gray-800 z-50 shadow-md p-4 flex justify-between items-center">
+        <h1 className="text-xl font-bold text-purple-400">SnapStack.art</h1>
+        <div className="flex items-center gap-4">
+          <FaUpload className="cursor-pointer hover:text-purple-300 transition" />
+          <FaBell className="cursor-pointer hover:text-yellow-400 transition" />
+          <FaUser className="cursor-pointer hover:text-blue-400 transition" />
+        </div>
+      </header>
+
+      <main className="flex-1 p-4 md:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {arts.map((item) => (
+            <div
+              key={item._id}
+              className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-gray-800"
             >
-              Go to Profile
-            </button>
-          </div>
-        ) : (
-          // ❌ Kullanıcı giriş yapmamışsa gösterilecek kart
-          <div className="bg-white/20 backdrop-blur-md rounded-3xl p-8 max-w-md w-full flex flex-col gap-6 shadow-2xl border border-white/30">
-            <h1 className="text-3xl font-bold text-white text-center">
-              Welcome to SnapStack.art!
-            </h1>
-            <p className="text-white/80 text-center">
-              You are not logged in yet. Please login or register to continue.
-            </p>
-            <div className="flex justify-center gap-4 mt-4">
-              <button
-                onClick={() => window.location.href = "/login"}
-                className="px-6 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-xl transition shadow-lg"
-              >
-                Login
-              </button>
-              <button
-                onClick={() => window.location.href = "/register"}
-                className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-xl transition shadow-lg"
-              >
-                Register
-              </button>
+              <img
+                src={`http://localhost:5000${item.imageUrl}`}
+                alt={item.title}
+                className="w-full h-64 md:h-72 lg:h-80 object-cover"
+              />
+              <div className="p-4 bg-gradient-to-t from-black/80 via-transparent to-transparent absolute bottom-0 w-full">
+                <h2 className="text-lg md:text-xl font-bold text-purple-400">{item.title}</h2>
+                {item.tags.length > 0 && (
+                  <p className="text-sm md:text-base text-gray-300 mt-1">Tags: {item.tags.join(", ")}</p>
+                )}
+                <div className="flex gap-4 mt-2 text-gray-400">
+                  <div className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition">
+                    <FaHeart /> <span>{item.likes || 0}</span>
+                  </div>
+                  <div className="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition">
+                    <FaComment /> <span>{item.comments?.length || 0}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          ))}
+        </div>
+      </main>
+
+      {hasMore && (
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={fetchArts}
+          className="font-inter px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300"
+        >
+          🚀 Show More
+        </button>
       </div>
+    )}
+
+
+
       <Footer />
-    </>
+    </div>
   );
 }

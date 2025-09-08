@@ -41,6 +41,10 @@ export default function Header() {
           SnapStack.art
         </div>
 
+        {userData && (
+          <span>{userData.username}</span>
+        )}
+
         <div className="hidden md:flex space-x-4">
           <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
             <BiHome size={28} className="text-black hover:text-yellow-400 transition-colors" />
