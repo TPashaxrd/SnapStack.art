@@ -2,7 +2,8 @@ const express = require("express")
 const dotenv = require("dotenv")
 const crypto = require("crypto");
 const User = require("../models/User");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const Arts = require("../models/Arts");
 
 const CreateUser = async (req, res) => {
     const { username, email, password, IP_Address } = req.body;
@@ -52,4 +53,34 @@ const me = async (req, res) => {
     res.json({ user });
 }
 
-module.exports = { me, Logout, CreateUser, Login }
+const getArtsByUser = async (req, res) => {
+    try {
+      const userId = req.session.userId; 
+      if (!userId) return res.status(401).json({ message: "Not logged in" });
+  
+      const user = await User.findById(userId).select("-password");
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      const arts = await Arts.find({ user: user._id }).sort({ createdAt: -1 });
+  
+      res.status(200).json({
+        user: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          avatarUrl: user.avatarUrl || null,
+          bio: user.bio || "",
+          totalArts: arts.length,
+        },
+        arts,
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+  const getUserArtsCount = async (req,res) => {
+
+  }
+
+module.exports = { me, Logout, CreateUser, Login, getArtsByUser }

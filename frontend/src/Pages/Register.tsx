@@ -17,7 +17,6 @@ export default function Register() {
   const [IP_Address, setIP_Address] = useState("");
   const [error, setError] = useState("");
 
-  // IP'yi sadece component mount olduğunda al
   useEffect(() => {
     axios
       .get("https://api.ipify.org?format=json")

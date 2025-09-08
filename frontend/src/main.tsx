@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Register from './Pages/Register.tsx'
 import Login from './Pages/Login.tsx'
 import CreateArts from './Pages/CreateArts.tsx'
+import Profile from './Pages/Profile.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ createRoot(document.getElementById('root')!).render(
     <Route path="/register" element={<Register/>}/>
     <Route path="/login" element={<Login/>}/>
     <Route path="/create-arts" element={<CreateArts/>}/>
+    <Route path="/profile/:username" element={<Profile/>}/>
    </Routes>
   </BrowserRouter>
 )

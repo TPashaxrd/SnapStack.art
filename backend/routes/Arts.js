@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const { CreateArt, showAllArts } = require("../controllers/Arts");
+const { CreateArt, showAllArts, incrementViews } = require("../controllers/Arts");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,5 +17,6 @@ const router = express.Router();
 
 router.post("/create", upload.single("image"), CreateArt);
 router.get("/all-arts", showAllArts)
+router.patch("/view/:id", incrementViews)
 
 module.exports = router;

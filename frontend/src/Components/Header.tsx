@@ -28,7 +28,7 @@ export default function Header() {
     fetchMe()
   }, [])
 
-  if(loading) return <p>31</p>
+  if(loading) return <p>Loading...</p>
 
   return (
     <header className="bg-gradient-to-br from-purple-700 via-pink-500 to-orange-400 text-black py-4 shadow-md">
@@ -42,16 +42,18 @@ export default function Header() {
         </div>
 
         {userData && (
-          <span>{userData.username}</span>
+          <span >{userData.username}</span>
         )}
 
         <div className="hidden md:flex space-x-4">
           <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
             <BiHome size={28} className="text-black hover:text-yellow-400 transition-colors" />
           </a>
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
+          {userData && (
+          <a href={`/profile/${userData.username}`} className="p-2 rounded-md hover:bg-gray-100 transition-colors">
             <BiUser size={28} className="text-black hover:text-yellow-400 transition-colors" />
           </a>
+          )}
           <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
             <BiSearch size={28} className="text-black hover:text-yellow-400 transition-colors" />
           </a>

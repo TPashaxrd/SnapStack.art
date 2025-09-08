@@ -25,6 +25,10 @@ const ArtSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    view: {
+        type: Number,
+        default: 0
+    },
     date: {
         type: Date,
         default: Date.now()
