@@ -42,7 +42,7 @@ export default function Header() {
         </div>
 
         {userData && (
-          <span >{userData.username}</span>
+          <span className="text-xl font-inter">{userData.username}</span>
         )}
 
         <div className="hidden md:flex space-x-4">

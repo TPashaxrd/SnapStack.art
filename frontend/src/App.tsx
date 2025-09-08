@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import axios from "axios";
 import { FaComment, FaHeart, FaBell, FaUser, FaUpload } from "react-icons/fa";
+import Header from "./Components/Header";
 
 export default function ReelsFeed() {
   const [arts, setArts] = useState<any[]>([]);
@@ -59,15 +60,7 @@ export default function ReelsFeed() {
 
   return (
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
-      <header className="sticky top-0 bg-gray-800 z-50 shadow-md p-4 flex justify-between items-center">
-        <h1 className="text-xl font-bold text-purple-400">SnapStack.art</h1>
-        <div className="flex items-center gap-4">
-          <FaUpload className="cursor-pointer hover:text-purple-300 transition" />
-          <FaBell className="cursor-pointer hover:text-yellow-400 transition" />
-          <FaUser className="cursor-pointer hover:text-blue-400 transition" />
-        </div>
-      </header>
-
+      <Header />
       <main className="flex-1 p-4 md:p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {arts.map((item) => (
