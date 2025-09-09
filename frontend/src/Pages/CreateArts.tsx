@@ -53,13 +53,23 @@ export default function CreateArts() {
   if (loading) return <p className="text-center mt-12 text-xl font-medium text-purple-600">Checking login...</p>;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white/10 text-white backdrop-blur-lg rounded-3xl shadow-2xl p-10 max-w-md w-full flex flex-col gap-6">
-        <span className="text-blue-500 font-inter hover:text-blue-500/60 hover:underline border px-1 py-1 text-xl cursor-pointer border-black" onClick={() => window.location.href = "/"}>[BACK TO HOME]</span>
-        <div className="absolute -top-24 -left-24 w-44 h-44 bg-purple-300 rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
-        <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-pink-300 rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
-        <h1 className="text-4xl font-extrabold text-center text-purple-700 tracking-wide drop-shadow-lg">
-          Upload Your Art's!
+    <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-b from-gray-900 via-black to-gray-900 relative overflow-hidden">
+      
+      <div className="absolute -top-24 -left-24 w-44 h-44 bg-purple-500 rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
+      <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-pink-500 rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
+      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-700/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
+  
+      <div className="relative z-10 bg-black/60 backdrop-blur-xl text-white rounded-3xl shadow-2xl p-10 max-w-md w-full flex flex-col gap-6">
+        
+        <span
+          className="text-blue-500 font-inter hover:text-blue-500/60 hover:underline border px-2 py-1 text-lg cursor-pointer border-black"
+          onClick={() => window.location.href = "/"}
+        >
+          [BACK TO HOME]
+        </span>
+  
+        <h1 className="text-4xl font-extrabold text-center text-purple-400 tracking-wide drop-shadow-lg">
+          Upload Your Masterpiece
         </h1>
   
         {!user && (
@@ -81,7 +91,7 @@ export default function CreateArts() {
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Artwork Title"
-              className="w-full px-5 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-sm hover:shadow-md transition"
+              className="w-full px-5 py-3 border border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
               required
             />
           </div>
@@ -93,32 +103,32 @@ export default function CreateArts() {
               value={tags}
               onChange={e => setTags(e.target.value)}
               placeholder="Add tags, separated by commas"
-              className="w-full px-5 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-sm hover:shadow-md transition"
+              className="w-full px-5 py-3 border border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
             />
           </div>
   
           <div>
             <label className="block font-semibold mb-1">Upload Image</label>
             <input
-              title="Upload File"
+              title="Upload Image"
               type="file"
               accept="image/*"
               onChange={e => setImage(e.target.files ? e.target.files[0] : null)}
-              className="w-full text-gray-700 cursor-pointer hover:opacity-80 transition"
+              className="w-full text-gray-300 cursor-pointer hover:opacity-80 transition"
               required
             />
           </div>
   
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 rounded-2xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
+            className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-pink-500 hover:to-purple-500 text-white font-bold py-3 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300"
           >
             Upload Masterpiece
           </button>
         </form>
   
         {message && (
-          <p className="text-center text-gray-700 mt-3 font-medium text-lg animate-fadeIn">{message}</p>
+          <p className="text-center text-gray-300 mt-3 font-medium text-lg animate-fadeIn">{message}</p>
         )}
   
         <p className="text-center text-sm text-gray-400 mt-4">
@@ -127,5 +137,4 @@ export default function CreateArts() {
       </div>
     </div>
   );
-  
 }
