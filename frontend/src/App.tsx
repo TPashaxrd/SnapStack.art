@@ -84,7 +84,7 @@ export default function ReelsFeed() {
 
               {item.tags.length > 0 && (
                 <p className="text-xs text-gray-300 mt-1">
-                  #{item.tags.join(" #")}
+                  #{item.tags.join(" ,")}
                 </p>
               )}
 

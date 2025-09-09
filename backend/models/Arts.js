@@ -25,6 +25,9 @@ const ArtSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId, ref: 'Users'
+    }],
     view: {
         type: Number,
         default: 0

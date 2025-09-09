@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { FaHeart, FaComment, FaUser, FaEnvelope } from "react-icons/fa";
+import { FaHeart, FaComment, FaEnvelope } from "react-icons/fa";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
 import { BsEye } from "react-icons/bs";
