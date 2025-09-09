@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import axios from "axios";
-import { FaComment, FaEye, FaHeart } from "react-icons/fa";
+import { FaComment, FaEye, FaHeart, FaPaintBrush } from "react-icons/fa";
 import Header from "./Components/Header";
-import { BsEye } from "react-icons/bs";
+import { GrClose } from "react-icons/gr";
 
 export default function ReelsFeed() {
   const [arts, setArts] = useState<any[]>([]);
@@ -12,7 +12,26 @@ export default function ReelsFeed() {
   const [skip, setSkip] = useState(0);
   const limit = 7;
   const [hasMore, setHasMore] = useState(true);
+  const [notLoggedin, setNotLoggedIn] = useState(false)
+  const [currentUser, setCurrentUser] = useState<any>(null)
 
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const res = await axios.get("http://localhost:5000/api/user/me", { withCredentials: true });
+        setCurrentUser(res.data);
+      } catch (err) {
+        console.error("No User Info.", err);
+        setNotLoggedIn(true)
+
+      }
+    }
+    fetchUser();
+  }, []);
+
+  function loggedToggle() {
+    setNotLoggedIn(!notLoggedin)
+  }
 
   const fetchArts = async () => {
     try {
@@ -50,12 +69,58 @@ export default function ReelsFeed() {
 
   return (
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
+
+  {notLoggedin && (
+    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
+      <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
+        
+        <button
+          onClick={loggedToggle}
+          title="Close"
+          className="absolute top-4 right-4 text-white bg-purple-500 hover:bg-purple-600 p-2 rounded-full transition"
+        >
+          <GrClose size={20} />
+        </button>
+
+        <img
+          src="https://imgs.search.brave.com/FJM3qocXPCIFEx-ThnUHVwCnlVBM1mT-ttZvSTXr-2M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xMDAyNC8xMDAy/NDIyNS5wbmc_c2Vt/dD1haXNfd2hpdGVf/bGFiZWw"
+          alt="Login required"
+          className="w-20 h-20 animate-bounce"
+        />
+
+        <h2 className="text-2xl font-bold text-purple-400 font-inter">
+          Oops! You are not logged in.
+        </h2>
+
+        <p className="text-gray-300">
+          To like or comment, you need to log in first.
+        </p>
+
+        <a
+          href="/login"
+          className="px-6 py-2 bg-purple-500 font-inter hover:bg-purple-600 rounded-2xl text-white font-semibold transition"
+        >
+          Log In
+        </a>
+      </div>
+    </div>
+  )}
+
+
       <Header />
       <main className="flex-1 p-4 md:p-8">
-        <div onClick={() => window.location.href = "/create-arts"} className="text-center text-3xl font-roboto-condensed text-red-600 bg-black rounded-xl px-1 py-1 hover:text-red-600/70 mb-2">
-          Share Your Art's!
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <div
+        onClick={() => window.location.href = "/create-arts"}
+        className="flex items-center justify-center gap-3 px-6 py-3 mx-auto w-max bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300 cursor-pointer"
+      >
+        <FaPaintBrush className="w-5 h-5 text-white animate-bounce" />
+        <span className="text-white font-semibold text-lg font-roboto-condensed">
+          Share Your Art
+        </span>
+      </div>
+
+        <div className="grid mt-4  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {arts.map((item) => (
           <div
             key={item._id}
@@ -84,7 +149,7 @@ export default function ReelsFeed() {
 
               {item.tags.length > 0 && (
                 <p className="text-xs text-gray-300 mt-1">
-                  #{item.tags.join(" ,")}
+                  #{item.tags.join(" #")}
                 </p>
               )}
 

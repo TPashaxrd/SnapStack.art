@@ -71,14 +71,16 @@ export default function Header() {
 
       {mobileMenuOpen && (
         <div className="md:hidden shadow-md mt-2 px-4 py-2 flex flex-col space-y-2">
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiHome size={24} /> <span>Ana Sayfa</span>
+          <a href="/" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
+            <BiHome size={24} /> <span>Home</span>
           </a>
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiUser size={24} /> <span>Profil</span>
+          <a 
+          href={userData ? '/profile' : '/login'}
+          className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
+            <BiUser size={24} /> <span>Profile</span>
           </a>
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiSearch size={24} /> <span>Ara</span>
+          <a href="/search" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
+            <BiSearch size={24} /> <span>Search</span>
           </a>
         </div>
       )}

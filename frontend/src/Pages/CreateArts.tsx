@@ -65,6 +65,7 @@ export default function CreateArts() {
         {!user && (
           <p className="text-center text-red-500 font-semibold animate-pulse">
             You must be logged in to upload!
+            <a className="text-blue-500 hover:text-blue-500/60" href="/login">&nbsp;Log in.</a>
           </p>
         )}
   

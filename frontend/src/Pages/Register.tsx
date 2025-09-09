@@ -93,6 +93,9 @@ export default function Register() {
             className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
           />
 
+          <p className="text-white/70 text-center mt-2">
+            Already have account? <span onClick={() => window.location.href = "/login" } className="underline cursor-pointer hover:text-white">Login</span>
+          </p>
           <button
             onClick={Submit}
             className="w-full py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg transition shadow-lg"
