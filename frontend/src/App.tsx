@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import axios from "axios";
-import { FaComment, FaHeart, FaBell, FaUser, FaUpload } from "react-icons/fa";
+import { FaComment, FaEye, FaHeart } from "react-icons/fa";
 import Header from "./Components/Header";
+import { BsEye } from "react-icons/bs";
 
 export default function ReelsFeed() {
   const [arts, setArts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [skip, setSkip] = useState(0);
-  const limit = 2;
+  const limit = 7;
   const [hasMore, setHasMore] = useState(true);
 
 
@@ -34,17 +35,6 @@ export default function ReelsFeed() {
     fetchArts();
   }, []);
 
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     if (!hasMore || loading) return;
-  //     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 200) {
-  //       fetchArts();
-  //     }
-  //   };
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [hasMore, loading, skip]);
-
   if (loading)
     return (
       <p className="text-white text-2xl font-bold animate-pulse min-h-screen flex items-center justify-center">
@@ -62,36 +52,58 @@ export default function ReelsFeed() {
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
       <Header />
       <main className="flex-1 p-4 md:p-8">
+        <div onClick={() => window.location.href = "/create-arts"} className="text-center text-3xl font-roboto-condensed text-red-600 bg-black rounded-xl px-1 py-1 hover:text-red-600/70 mb-2">
+          Share Your Art's!
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {arts.map((item) => (
-            <div
-              key={item._id}
-              className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-gray-800"
-            >
+        {arts.map((item) => (
+          <div
+            key={item._id}
+            onClick={() => window.location.href = `/art/${item._id}`}
+            className="group relative rounded-2xl overflow-hidden cursor-pointe bg-gradient-to-b from-gray-900 via-gray-800 to-black shadow-lg hover:shadow-purple-600/30 transition-all duration-500"
+          >
+            <div className="flex items-center gap- p-2 absolute top-2 bg-black/60 backdrop-blur-md rounded-full z-10">
               <img
-                src={`http://localhost:5000${item.imageUrl}`}
-                alt={item.title}
-                className="w-full h-64 md:h-72 lg:h-80 object-cover"
+                className="h-8 rounded-full"
+                src={item.user.avatarUrl}
+                alt="Avatar"
               />
-              <div className="p-4 bg-gradient-to-t from-black/80 via-transparent to-transparent absolute bottom-0 w-full">
-                <h2 className="text-lg md:text-xl font-bold text-purple-400">{item.title}</h2>
-                {item.tags.length > 0 && (
-                  <p className="text-sm md:text-base text-gray-300 mt-1">Tags: {item.tags.join(", ")}</p>
-                )}
-                <div className="flex gap-4 mt-2 text-gray-400">
-                  <div className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition">
-                    <FaHeart /> <span>{item.likes || 0}</span>
-                  </div>
-                  <div className="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition">
-                    <FaComment /> <span>{item.comments?.length || 0}</span>
-                  </div>
-                </div>
+              <span className="font-inter text-md text-white">{item.user.username}</span>
+            </div>
+
+            <img
+              src={`http://localhost:5000${item.imageUrl}`}
+              alt={item.title}
+              className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+
+            <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black via-black/70 to-transparent">
+              <h2 className="text-lg font-bold text-purple-400 group-hover:text-purple-300 transition">
+                {item.title}
+              </h2>
+
+              {item.tags.length > 0 && (
+                <p className="text-xs text-gray-300 mt-1">
+                  #{item.tags.join(" #")}
+                </p>
+              )}
+
+              <div className="flex gap-6 mt-3">
+                <button className="flex items-center gap-1 text-gray-400 hover:text-red-500 transition">
+                  <FaHeart className="w-4 h-4" /> <span>{item.likes || 0}</span>
+                </button>
+                <button className="flex items-center gap-1 text-gray-400 hover:text-blue-400 transition">
+                  <FaComment className="w-4 h-4" /> <span>{item.comments?.length || 0}</span>
+                </button>
+                <button className="flex items-center gap-1 text-gray-400 hover:text-blue-400 transition">
+                  <FaEye size={20} /> <span>{item.view}</span> 
+                </button>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
         </div>
       </main>
-
       {hasMore && (
       <div className="flex justify-center mt-8">
         <button
@@ -102,9 +114,6 @@ export default function ReelsFeed() {
         </button>
       </div>
     )}
-
-
-
       <Footer />
     </div>
   );

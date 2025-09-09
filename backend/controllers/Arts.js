@@ -34,20 +34,22 @@ const CreateArt = async (req, res) => {
 };
 
 const showAllArts = async (req, res) => {
-    try {
-      const limit = parseInt(req.query.limit) || 6;
-      const skip = parseInt(req.query.skip) || 0;
-  
-      const arts = await Arts.find()
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit);
-  
-      res.json(arts);
-    } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  };
+  try {
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = parseInt(req.query.skip) || 0;
+
+    const arts = await Arts.find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .populate("user", "username email avatarUrl bio"); 
+      
+    res.json(arts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
   
   const incrementViews = async (req, res) => {
     try {
