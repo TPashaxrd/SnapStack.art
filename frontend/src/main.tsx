@@ -7,6 +7,7 @@ import Login from './Pages/Login.tsx'
 import CreateArts from './Pages/CreateArts.tsx'
 import Profile from './Pages/Profile.tsx'
 import Arts from './Pages/Arts.tsx'
+import NoPage from './Pages/NoPage.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
     <Route path="/create-arts" element={<CreateArts/>}/>
     <Route path="/profile/:username" element={<Profile/>}/>
     <Route path="/art/:id" element={<Arts/>}/>
+    <Route path="*" element={<NoPage/>}/>
    </Routes>
   </BrowserRouter>
 )

@@ -68,11 +68,15 @@ export default function ReelsFeed() {
     );
 
   return (
+    <>
+            <div className="absolute -top-24 -left-24 w-44 h-44 bg-purple-500 rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
+        <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-pink-500 rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
+        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-700/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
+      
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
-
-  {notLoggedin && (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
-      <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
+      {notLoggedin && (
+      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
+        <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
         
         <button
           onClick={loggedToggle}
@@ -181,5 +185,6 @@ export default function ReelsFeed() {
     )}
       <Footer />
     </div>
+    </>
   );
 }

@@ -6,7 +6,8 @@ const MongoStore = require("connect-mongo");
 const session = require("express-session");
 const AuthRoutes = require("./routes/Auth");
 const ArtRoutes = require("./routes/Arts");
-const path = require("path")
+const path = require("path");
+const SubsRoutes = require("./routes/Subscribe");
 
 db();
 
@@ -33,6 +34,7 @@ app.use(session({
 
 app.use("/api/user", AuthRoutes);
 app.use("/api/arts", ArtRoutes);
+app.use("/api/subs", SubsRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 5000;

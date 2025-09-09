@@ -76,86 +76,93 @@ export default function Profile() {
       </p>
     );
 
-  return (
-    <>
-    <Header />
-    <div className="bg-gray-900 min-h-screen text-white p-4 md:p-8">
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-gray-800 p-6 rounded-2xl shadow-lg">
-        <img
-          src={user.avatarUrl || "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"}
-          alt={user.username}
-          onClick={showprof}
-          className="w-32 h-32 rounded-full object-cover border-4 border-purple-400"
-        />
-        <div className="flex-1 flex flex-col gap-2">
-          <h1 className="text-3xl text-center font-bold text-purple-400">{user.username}</h1>
-          {user.bio && <p className="text-gray-300 text-center">{user.bio}</p>}
-          <div className="flex gap-4 mt-2 text-gray-400 flex-wrap">
-            <div className="flex gap-1 font-inter">
-                <BiPlus size={20} /> Total Arts: {user.totalArts}
-            </div>
-            <div className="flex items-center gap-1">
-              {/* <FaEnvelope /> <span>{user.email}</span> */}
-              <FaEnvelope /> <span>*******@gmail.com</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <h2 className="text-2xl md:text-3xl font-bold text-purple-400 mb-6">Artworks</h2>
-      {userArts.length === 0 ? (
-        <p className="text-gray-400 text-center mt-8">No artworks uploaded yet.</p>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {userArts.map((item) => (
-            <div
-              key={item._id}
-              className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-gray-800"
-            >
-              <img
-                src={`http://localhost:5000${item.imageUrl}`}
-                alt={item.title}
-                className="w-full h-64 md:h-72 lg:h-80 object-cover"
-              />
-              <div className="p-4 bg-gradient-to-t from-black/80 via-transparent to-transparent absolute bottom-0 w-full">
-                <h3 className="text-lg md:text-xl font-bold text-purple-400">{item.title}</h3>
-                {item.tags.length > 0 && (
-                  <p className="text-sm md:text-base text-gray-300 mt-1">
-                    Tags: {item.tags.join(", ")}
-                  </p>
-                )}
-                <div className="flex gap-4 mt-2 text-gray-400">
-                  <div className="flex items-center gap-1 hover:text-red-500 cursor-pointer transition">
-                    <FaHeart /> <span>{item.likes || 0}</span>
-                  </div>
-                  <div className="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition">
-                    <FaComment /> <span>{item.comments?.length || 0}</span>
-                  </div>
-                  <div className="flex items-center gap-1 hover:text-blue-400 cursor-pointer transition">
-                    <BsEye /> <span>{item.view}</span>
-                  </div>
+    return (
+      <>
+        <Header />
+    
+        <div className="bg-gray-900 min-h-screen text-white p-4 md:p-8 relative">
+          
+          <div className="absolute -top-20 -left-20 w-60 h-60 bg-purple-500 rounded-full opacity-20 rotate-12 animate-pulse-slow"></div>
+          <div className="absolute -bottom-28 -right-24 w-80 h-80 bg-pink-500 rounded-full opacity-15 rotate-45 animate-pulse-slow"></div>
+    
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-black/60 backdrop-blur-xl p-6 rounded-3xl shadow-2xl transition-all hover:shadow-purple-600/40">
+            <img
+              src={user.avatarUrl || "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"}
+              alt={user.username}
+              onClick={showprof}
+              className="w-32 h-32 rounded-full object-cover border-4 border-purple-400 cursor-pointer hover:scale-105 transition-transform duration-300"
+            />
+            <div className="flex-1 flex flex-col gap-2 text-center md:text-left">
+              <h1 className="text-3xl font-bold text-purple-400">{user.username}</h1>
+              {user.bio && <p className="text-gray-300">{user.bio}</p>}
+    
+              <div className="flex gap-6 mt-2 justify-center md:justify-start flex-wrap text-gray-400">
+                <div className="flex gap-1 items-center">
+                  <BiPlus size={20} /> Total Arts: {user.totalArts}
+                </div>
+                <div className="flex items-center gap-1">
+                  <FaEnvelope /> <span>*******@gmail.com</span>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+    
+          <h2 className="text-2xl md:text-3xl font-bold text-purple-400 mb-6 text-center md:text-left">Artworks</h2>
+          {userArts.length === 0 ? (
+            <p className="text-gray-400 text-center mt-8">No artworks uploaded yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {userArts.map((item) => (
+                <div
+                  key={item._id}
+                  className="relative rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-black/70 backdrop-blur-sm cursor-pointer"
+                  onClick={() => window.location.href = `/art/${item._id}`}
+                >
+                  <img
+                    src={`http://localhost:5000${item.imageUrl}`}
+                    alt={item.title}
+                    className="w-full h-64 md:h-72 lg:h-80 object-cover"
+                  />
+                  <div className="p-4 bg-gradient-to-t from-black/80 via-transparent to-transparent absolute bottom-0 w-full">
+                    <h3 className="text-lg md:text-xl font-bold text-purple-400">{item.title}</h3>
+                    {item.tags.length > 0 && (
+                      <p className="text-sm md:text-base text-gray-300 mt-1">
+                        Tags: {item.tags.join(", ")}
+                      </p>
+                    )}
+                    <div className="flex gap-4 mt-2 text-gray-400">
+                      <div className="flex items-center gap-1 hover:text-red-500 transition">
+                        <FaHeart /> <span>{item.likes || 0}</span>
+                      </div>
+                      <div className="flex items-center gap-1 hover:text-blue-400 transition">
+                        <FaComment /> <span>{item.comments?.length || 0}</span>
+                      </div>
+                      <div className="flex items-center gap-1 hover:text-blue-400 transition">
+                        <BsEye /> <span>{item.view}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+    
+          {showProfile && (
+            <div
+              onClick={showprof}  
+              className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 cursor-pointer"
+            >
+              <img
+                src={user.avatarUrl || "https://via.placeholder.com/150"}
+                alt="Avatar"
+                className="max-w-[90%] max-h-[90%] rounded-3xl shadow-2xl animate-scale-up"
+              />
+            </div>
+          )}
+    
         </div>
-      )}
-    </div>
-    {showProfile && (
-        <div
-          onClick={showprof}  
-          className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50"
-        >
-          <img
-            src={user.avatarUrl || "https://via.placeholder.com/150"}
-            alt="Avatar"
-            className="max-w-[90%] max-h-[90%] rounded-lg shadow-lg"
-          />
-        </div>
-      )}
-
-
-    <Footer />
-    </>
-  );
+        <Footer />
+      </>
+    );
+    
 }
