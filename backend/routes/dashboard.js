@@ -1,8 +1,9 @@
 const express = require("express")
-const { totals } = require("../controllers/dashboard")
+const { totals, users } = require("../controllers/dashboard")
 const isAdmin = require("../middlewares/isAdmin")
 const router = express.Router()
 
-router.post("/totals", totals)
+router.post("/totals", isAdmin, totals)
+router.post("/users", isAdmin, users)
 
 module.exports = router

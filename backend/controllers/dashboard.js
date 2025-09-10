@@ -7,12 +7,12 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 const totals = async (req, res) => {
-    const { password } = req.body;
-    const ADMIN_PASSWORD = "2443";
+    // const { password } = req.body;
+    // const ADMIN_PASSWORD = process.env.ADMIN_KEY;
   
-    if (password !== ADMIN_PASSWORD) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
-    }
+    // if (password !== ADMIN_PASSWORD) {
+    //   return res.status(401).json({ success: false, message: "Unauthorized" });
+    // }
   
     try {
       const UserCount = await User.countDocuments();
@@ -32,6 +32,20 @@ const totals = async (req, res) => {
       res.status(500).json({ success: false, message: error.message });
     }
   };
+
+const users = async (req, res) => {
+    // const { password } = req.body;
+    // const ADMIN_PASSWORD = process.env.ADMIN_KEY;
+    // if(password !== ADMIN_PASSWORD) {
+    //     return res.status(401).json({ success: false, message: "Unauthorized" })
+    // }
+    try {
+        const users = await User.find()
+        res.status(201).json({ users })
+    } catch (error) {
+       res.status(500).json({ message: error.message }) 
+    }
+}
   
 
-module.exports = { totals}
+module.exports = { totals, users }
