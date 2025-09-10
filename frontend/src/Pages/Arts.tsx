@@ -22,7 +22,7 @@ export default function Arts() {
   const [loading, setLoading] = useState(true);
   const [newComment, setNewComment] = useState("");
   const [currentUser, setCurrentUser] = useState<any>(null);
-  const [liked, setLiked] = useState(false)
+  const [showArt, setShowArt] = useState(false)
 
   useEffect(() => {
     async function fetchUser() {
@@ -51,6 +51,10 @@ export default function Arts() {
     fetchArt();
   }, [id]);
   
+
+  function ShowArtToggle() {
+    setShowArt(!showArt)
+  }
 
   useEffect(() => {
     async function postView() {
@@ -89,13 +93,13 @@ export default function Arts() {
   };
   
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <div className="min-h-screen items-center justify-center flex text-blue-500"><div className="lds-facebook"><div></div><div></div><div></div></div></div>;
 
   return (
     <>
       <Header />
       <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-gray-900 via-black to-gray-900 font-space-grotesk px-4">
-        <div className="w-full mt-2 max-w-3xl bg-black/60 backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
+        <div className="mb-12 mt-11 w-full mt-2 max-w-3xl bg-black/60 backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden">
           
           <div className="p-6 border-b border-gray-800">
             <h1 className="text-3xl font-bold text-center text-purple-400 font-inter">
@@ -107,14 +111,15 @@ export default function Arts() {
             <img
               src={`http://localhost:5000${art?.imageUrl}`}
               alt={art?.title}
-              className="w-full h-[450px] object-cover transition-transform duration-500 group-hover:scale-105"
+              onClick={ShowArtToggle}
+              className="w-full cursor-pointer h-[450px] object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
 
           <div className="p-6 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <img
-                src={art.user.avatarUrl}
+                src={`http://localhost:5000${art?.user?.avatarUrl}`}
                 alt="Avatar"
                 className="w-14 h-14 rounded-full border-2 border-purple-500"
               />
@@ -122,14 +127,14 @@ export default function Arts() {
                 <p className="text-white text-lg">
                   by{" "}
                   <a
-                    href={`/profile/${art.user.username}`}
+                    href={`/profile/${art?.user?.username}`}
                     className="text-purple-300 hover:underline"
                   >
-                    {art?.user.username}
+                    {art?.user?.username || "Deleted User"}
                   </a>
                 </p>
                 {art.tags.length > 0 && (
-                  <p className="text-sm text-gray-400">#{art.tags.join(" #")}</p>
+                  <p className="text-sm text-gray-400">#{art?.tags?.join(" #")}</p>
                 )}
               </div>
             </div>
@@ -155,7 +160,7 @@ export default function Arts() {
               <form onSubmit={handleCommentSubmit} className="mt-6 flex flex-col gap-2">
                 <textarea
                   className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:border-purple-500"
-                  placeholder={`Enter comment by ${currentUser.user.username}`}
+                  placeholder={`Enter comment by ${currentUser?.user.username}`}
                   value={newComment}
                   onChange={(e) => setNewComment(e.target.value)}
                   required
@@ -180,14 +185,14 @@ export default function Arts() {
                 .map((c: Comment) => (
                   <div key={c._id} className="flex gap-3 bg-black/30 p-3 rounded">
                     <img
-                      src={c.user.avatarUrl}
-                      alt={c.user.username}
+                      src={`http://localhost:5000${c?.user?.avatarUrl}`}
+                      alt={c?.user?.username}
                       className="w-10 h-10 rounded-full border border-purple-500"
                     />
                     <div>
-                      <p className="text-purple-300 font-semibold">{c.user.username}</p>
-                      <p className="text-gray-300">{c.comment}</p>
-                      <p className="text-gray-500 text-xs">{new Date(c.date).toLocaleString()}</p>
+                      <p onClick={() => window.location.href = `/profile/${c?.user?.username}`} className="cursor-pointer hover:underline text-purple-300 font-semibold">{c?.user?.username}</p>
+                      <p className="text-gray-300">{c?.comment}</p>
+                      <p className="text-gray-500 text-xs">{new Date(c?.date).toLocaleString()}</p>
                     </div>
                   </div>
                 ))}
@@ -196,6 +201,13 @@ export default function Arts() {
         </div>
       </div>
       <Footer />
+
+      {showArt && (
+        <div onClick={ShowArtToggle} className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 cursor-pointer ">
+          <img src={`http://localhost:5000${art?.imageUrl}`} alt="Art Image" />
+        </div>
+      )}
+
     </>
   );
 }

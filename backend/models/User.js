@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
     },
     avatarUrl: {
         type: String,
-        default: "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"
+        default: "/uploads/avatars/default-avatar.png"
     },
     bio: {
         type: String,
@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    date: {
+        type: Date,
+        default: Date.now()
+    }
 })
 
 module.exports = mongoose.model("Users", userSchema)

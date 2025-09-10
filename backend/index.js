@@ -8,6 +8,9 @@ const AuthRoutes = require("./routes/Auth");
 const ArtRoutes = require("./routes/Arts");
 const path = require("path");
 const SubsRoutes = require("./routes/Subscribe");
+const SettingsRoutes = require("./routes/Settings");
+const DashboardRoutes = require("./routes/dashboard");
+const { limiter } = require("./middlewares/rateLimit");
 
 db();
 
@@ -32,9 +35,11 @@ app.use(session({
     }
 }));
 
-app.use("/api/user", AuthRoutes);
-app.use("/api/arts", ArtRoutes);
-app.use("/api/subs", SubsRoutes)
+app.use("/api/user", limiter, AuthRoutes);
+app.use("/api/arts", limiter, ArtRoutes);
+app.use("/api/subs", limiter, SubsRoutes)
+app.use("/api/settings", limiter, SettingsRoutes)
+app.use("/api/dashboard", limiter, DashboardRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 5000;

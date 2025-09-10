@@ -23,6 +23,7 @@ export default function ReelsFeed() {
       } catch (err) {
         console.error("No User Info.", err);
         setNotLoggedIn(true)
+        checkData()
 
       }
     }
@@ -32,6 +33,8 @@ export default function ReelsFeed() {
   function loggedToggle() {
     setNotLoggedIn(!notLoggedin)
   }
+
+  console.log(currentUser)
 
   const fetchArts = async () => {
     try {
@@ -50,16 +53,27 @@ export default function ReelsFeed() {
       setLoading(false);
     }
   };
+
+  function checkData() {
+    const storedData = localStorage.getItem("loginToggle");
+    const isLoggedIn = storedData ? JSON.parse(storedData) : null;
+  
+    if (isLoggedIn === true) {
+      setNotLoggedIn(false);
+    } else if (isLoggedIn === false) {
+      console.log("localStorage is False")
+    }
+  }
+
+  useEffect(() => {
+    checkData()
+  }, [])
+
   useEffect(() => {
     fetchArts();
   }, []);
 
-  if (loading)
-    return (
-      <p className="text-white text-2xl font-bold animate-pulse min-h-screen flex items-center justify-center">
-        Loading...
-      </p>
-    );
+  if (loading) return <div className="min-h-screen items-center justify-center flex text-blue-500"><div className="lds-facebook"><div></div><div></div><div></div></div></div>;
   if (error)
     return (
       <p className="text-red-500 text-xl font-semibold min-h-screen flex items-center justify-center">
@@ -68,18 +82,17 @@ export default function ReelsFeed() {
     );
 
   return (
-    <>
-            <div className="absolute -top-24 -left-24 w-44 h-44 bg-purple-500 rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
-        <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-pink-500 rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
-        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-700/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
-      
+    <>      
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
       {notLoggedin && (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
         <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
         
         <button
-          onClick={loggedToggle}
+          onClick={() => {
+            loggedToggle()
+            localStorage.setItem("loginToggle", "true")
+          }}
           title="Close"
           className="absolute top-4 right-4 text-white bg-purple-500 hover:bg-purple-600 p-2 rounded-full transition"
         >
@@ -131,24 +144,24 @@ export default function ReelsFeed() {
             onClick={() => window.location.href = `/art/${item._id}`}
             className="group relative rounded-2xl overflow-hidden cursor-pointe bg-gradient-to-b from-gray-900 via-gray-800 to-black shadow-lg hover:shadow-purple-600/30 transition-all duration-500"
           >
-            <div className="flex items-center gap- p-2 absolute top-2 bg-black/60 backdrop-blur-md rounded-full z-10">
+            <div className="flex items-center gap-1 p-2 absolute top-2 bg-black/60 backdrop-blur-md rounded-full z-10">
               <img
-                className="h-8 rounded-full"
-                src={item.user.avatarUrl}
+                className="h-8 rounded-full bg-white px-1 py-1"
+                src={`http://localhost:5000${item?.user?.avatarUrl}` || "https://cdn-icons-png.flaticon.com/512/1250/1250743.png"}
                 alt="Avatar"
               />
-              <span className="font-inter text-md text-white">{item.user.username}</span>
+              <span className="font-inter text-md text-white">{item?.user?.username || "Deleted User"}</span>
             </div>
 
             <img
-              src={`http://localhost:5000${item.imageUrl}`}
-              alt={item.title}
+              src={`http://localhost:5000${item?.imageUrl}`}
+              alt={item?.title}
               className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
             />
 
             <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black via-black/70 to-transparent">
               <h2 className="text-lg font-bold text-purple-400 group-hover:text-purple-300 transition">
-                {item.title}
+                {item?.title}
               </h2>
 
               {item.tags.length > 0 && (

@@ -91,7 +91,7 @@ export default function CreateArts() {
               value={title}
               onChange={e => setTitle(e.target.value)}
               placeholder="Artwork Title"
-              className="w-full px-5 py-3 border border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
+              className="w-full px-5 py-3 border font-inter border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
               required
             />
           </div>
@@ -103,7 +103,7 @@ export default function CreateArts() {
               value={tags}
               onChange={e => setTags(e.target.value)}
               placeholder="Add tags, separated by commas"
-              className="w-full px-5 py-3 border border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
+              className="w-full px-5 py-3 border font-inter border-gray-700 bg-black/30 rounded-2xl focus:ring-2 focus:ring-purple-400 focus:outline-none shadow-md hover:shadow-lg transition text-white placeholder-gray-400"
             />
           </div>
   

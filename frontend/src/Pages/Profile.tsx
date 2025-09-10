@@ -87,7 +87,7 @@ export default function Profile() {
     
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-black/60 backdrop-blur-xl p-6 rounded-3xl shadow-2xl transition-all hover:shadow-purple-600/40">
             <img
-              src={user.avatarUrl || "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"}
+              src={`http://localhost:5000${user.avatarUrl}` || "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"}
               alt={user.username}
               onClick={showprof}
               className="w-32 h-32 rounded-full object-cover border-4 border-purple-400 cursor-pointer hover:scale-105 transition-transform duration-300"

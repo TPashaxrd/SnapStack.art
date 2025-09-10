@@ -12,7 +12,6 @@ export default function Header() {
   const [error, setError] = useState("")
   const [userData, setUserData] = useState<MeData | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -21,14 +20,10 @@ export default function Header() {
             setUserData(res.data.user)
         } catch (error: any) {
             setError("Failed to fetch user data.")
-        } finally {
-            setLoading(false)
         }
     }
     fetchMe()
   }, [])
-
-  if(loading) return <p>Loading...</p>
 
   return (
     <header className="bg-gradient-to-br from-purple-700 via-pink-500 to-orange-400 text-black py-4 shadow-md">
@@ -40,7 +35,7 @@ export default function Header() {
         >
           SnapStack.art
         </div>
-
+        <span className="text-red-500 font-inter">{error}</span>
         {userData && (
           <span className="text-xl font-inter">{userData.username}</span>
         )}
@@ -75,7 +70,7 @@ export default function Header() {
             <BiHome size={24} /> <span>Home</span>
           </a>
           <a 
-          href={userData ? '/profile' : '/login'}
+          href={userData ? '/settings' : '/login'}
           className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
             <BiUser size={24} /> <span>Profile</span>
           </a>

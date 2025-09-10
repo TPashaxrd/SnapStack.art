@@ -29,8 +29,9 @@ export default function Footer() {
       console.log("Subscription success:", res.data);
       setError("");
       setEmail("")
-      setSuccessfully("Successfully Submited!")
+      setSuccessfully("Successfully Subscribed!")
     } catch (err: any) {
+      setSuccessfully("")
       setError(err.response?.data?.message || err.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -46,9 +47,10 @@ export default function Footer() {
   }, []);
 
   return (
+    <>
+    <div className="border border-gray-600"></div>
     <footer className="bg-gray-900 text-gray-300 pt-12 relative z-50">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
-
         <div>
           <h2
             className="text-2xl md:text-3xl font-extrabold text-white mb-4 cursor-pointer hover:text-purple-400 transition-colors"
@@ -67,8 +69,8 @@ export default function Footer() {
             {["Home", "Gallery", "About Us", "Contact"].map((link) => (
               <li key={link}>
                 <a
-                  href={`#${link.toLowerCase().replace(/\s+/g, "")}`}
-                  className="hover:text-white transition-colors"
+                  href={`/${link.toLowerCase().replace(/\s+/g, "")}`}
+                  className="hover:text-white text-blue-500 duration-300 transition-colors"
                 >
                   {link}
                 </a>
@@ -88,7 +90,7 @@ export default function Footer() {
               <li key={item.name}>
                 <a
                   href={`#${item.name.toLowerCase()}`}
-                  className="hover:text-white transition-colors flex items-center"
+                  className="hover:text-white text-blue-500 duration-300 transition-colors flex items-center"
                 >
                   {item.icon} {item.name}
                 </a>
@@ -114,7 +116,7 @@ export default function Footer() {
               type="button" 
               disabled={!IP_Address || loading}
               onClick={(e) => submitSubs(e)}
-              className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-md transition-colors text-sm disabled:bg-gray-500 disabled:cursor-not-allowed"
+              className="bg-purple-600 font-space-grotesk hover:bg-purple-500 text-white px-4 py-2 rounded-md transition-colors text-sm disabled:bg-gray-500 disabled:cursor-not-allowed"
             >
               {loading ? "Loading..." : "Subscribe"}
             </button>
@@ -138,5 +140,6 @@ export default function Footer() {
         &copy; {new Date().getFullYear()} SnapStack.art. All rights reserved. Designed with ❤️ by SnapStack Team.
       </div>
     </footer>
+    </>
   );
 }
