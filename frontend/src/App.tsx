@@ -34,7 +34,7 @@ export default function ReelsFeed() {
     setNotLoggedIn(!notLoggedin)
   }
 
-  console.log(currentUser)
+  // console.log(currentUser)
 
   const fetchArts = async () => {
     try {
