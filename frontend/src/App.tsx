@@ -147,7 +147,7 @@ export default function ReelsFeed() {
             <div className="flex items-center gap-1 p-2 absolute top-2 bg-black/60 backdrop-blur-md rounded-full z-10">
               <img
                 className="h-8 rounded-full bg-white px-1 py-1"
-                src={`http://localhost:5000${item?.user?.avatarUrl}` || "https://cdn-icons-png.flaticon.com/512/1250/1250743.png"}
+                src={item?.user?.avatarUrl ? `http://localhost:5000${item.user.avatarUrl}` : "https://cdn-icons-png.flaticon.com/512/1250/1250743.png"}
                 alt="Avatar"
               />
               <span className="font-inter text-md text-white">{item?.user?.username || "Deleted User"}</span>
