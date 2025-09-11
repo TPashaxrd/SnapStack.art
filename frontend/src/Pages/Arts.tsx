@@ -119,9 +119,9 @@ export default function Arts() {
           <div className="p-6 flex flex-col gap-4">
             <div className="flex items-center gap-3">
               <img
-                src={`http://localhost:5000${art?.user?.avatarUrl}` || "https://cdn-icons-png.flaticon.com/512/1250/1250743.png"}
+                src={art?.user?.avatarUrl ? `http://localhost:5000${art.user.avatarUrl}` : 'https://cdn-icons-png.flaticon.com/512/1250/1250743.png'}
                 alt="Avatar"
-                className="w-14 h-14 rounded-full border-2 border-purple-500"
+                className="w-14 h-14 bg-red-400 rounded-full border-2 border-purple-500"
               />
               <div>
                 <p className="text-white text-lg">

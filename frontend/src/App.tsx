@@ -84,51 +84,49 @@ export default function ReelsFeed() {
   return (
     <>      
     <div className="bg-gray-900 min-h-screen text-white flex flex-col">
-      {notLoggedin && (
+    {notLoggedin && (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
         <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
-        
-        <button
-          onClick={() => {
-            loggedToggle()
-            localStorage.setItem("loginToggle", "true")
-          }}
-          title="Close"
-          className="absolute top-4 right-4 text-white bg-purple-500 hover:bg-purple-600 p-2 rounded-full transition"
-        >
-          <GrClose size={20} />
-        </button>
+          <button
+            onClick={() => {
+              loggedToggle();
+              localStorage.setItem("loginToggle", "true");
+            }}
+            title="Close"
+            className="absolute top-4 right-4 text-white bg-purple-500 hover:bg-purple-600 p-2 rounded-full transition"
+          >
+            <GrClose size={20} />
+          </button>
 
-        <img
-          src="https://imgs.search.brave.com/FJM3qocXPCIFEx-ThnUHVwCnlVBM1mT-ttZvSTXr-2M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xMDAyNC8xMDAy/NDIyNS5wbmc_c2Vt/dD1haXNfd2hpdGVf/bGFiZWw"
-          alt="Login required"
-          className="w-20 h-20 animate-bounce"
-        />
+          <img
+            src="https://imgs.search.brave.com/FJM3qocXPCIFEx-ThnUHVwCnlVBM1mT-ttZvSTXr-2M/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4t/aWNvbnMtcG5nLmZy/ZWVwaWsuY29tLzI1/Ni8xMDAyNC8xMDAy/NDIyNS5wbmc_c2Vt/dD1haXNfd2hpdGVf/bGFiZWw"
+            alt="Login required"
+            className="w-20 h-20 animate-bounce"
+          />
 
-        <h2 className="text-2xl font-bold text-purple-400 font-inter">
-          Oops! You are not logged in.
-        </h2>
+          <h2 className="text-2xl font-bold text-purple-400 font-inter">
+            Oops! You are not logged in.
+          </h2>
 
-        <p className="text-gray-300">
-          To like or comment, you need to log in first.
-        </p>
+          <p className="text-gray-300">
+            To like or comment, you need to log in first.
+          </p>
 
-        <a
-          href="/login"
-          className="px-6 py-2 bg-purple-500 font-inter hover:bg-purple-600 rounded-2xl text-white font-semibold transition"
-        >
-          Log In
-        </a>
+          <a
+            href="/login"
+            className="px-6 py-2 bg-purple-500 font-inter hover:bg-purple-600 rounded-2xl text-white font-semibold transition"
+          >
+            Log In
+          </a>
+        </div>
       </div>
-    </div>
-  )}
+    )}
 
+    <Header />
 
-      <Header />
-      <main className="flex-1 p-4 md:p-8">
-      
+    <main className="flex-1 p-4 md:p-8">
       <div
-        onClick={() => window.location.href = "/create-arts"}
+        onClick={() => (window.location.href = "/create-arts")}
         className="flex items-center justify-center gap-3 px-6 py-3 mx-auto w-max bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300 cursor-pointer"
       >
         <FaPaintBrush className="w-5 h-5 text-white animate-bounce" />
@@ -137,20 +135,20 @@ export default function ReelsFeed() {
         </span>
       </div>
 
-        <div className="grid mt-4  grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid mt-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {arts.map((item) => (
           <div
             key={item._id}
             onClick={() => window.location.href = `/art/${item._id}`}
-            className="group relative rounded-2xl overflow-hidden cursor-pointe bg-gradient-to-b from-gray-900 via-gray-800 to-black shadow-lg hover:shadow-purple-600/30 transition-all duration-500"
+            className="group relative rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-purple-600/50 transition-all duration-500"
           >
-            <div className="flex items-center gap-1 p-2 absolute top-2 bg-black/60 backdrop-blur-md rounded-full z-10">
+            <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
               <img
-                className="h-8 rounded-full bg-white px-1 py-1"
+                className="h-8 w-8 rounded-full border-2 border-purple-500"
                 src={item?.user?.avatarUrl ? `http://localhost:5000${item.user.avatarUrl}` : "https://cdn-icons-png.flaticon.com/512/1250/1250743.png"}
                 alt="Avatar"
+                title={item?.user?.username || "Deleted User"}
               />
-              <span className="font-inter text-md text-white">{item?.user?.username || "Deleted User"}</span>
             </div>
 
             <img
@@ -159,45 +157,51 @@ export default function ReelsFeed() {
               className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
             />
 
-            <div className="absolute bottom-0 w-full p-4 bg-gradient-to-t from-black via-black/70 to-transparent">
-              <h2 className="text-lg font-bold text-purple-400 group-hover:text-purple-300 transition">
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex flex-col justify-end p-4">
+              <h2 className="text-lg font-bold text-purple-400 group-hover:text-purple-300 truncate">
                 {item?.title}
               </h2>
 
               {item.tags.length > 0 && (
-                <p className="text-xs text-gray-300 mt-1">
-                  #{item.tags.join(" #")}
-                </p>
+                <div className="flex flex-wrap gap-1 mt-1">
+                  {item.tags.map((tag: string, idx: number) => (
+                    <span key={idx} className="text-xs bg-purple-600 px-2 py-1 rounded-full">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
               )}
 
               <div className="flex gap-6 mt-3">
-                <button className="flex items-center gap-1 text-gray-400 hover:text-red-500 transition">
+                <button className="flex items-center gap-1 text-gray-300 hover:text-red-500 transition">
                   <FaHeart className="w-4 h-4" /> <span>{item.likes || 0}</span>
                 </button>
-                <button className="flex items-center gap-1 text-gray-400 hover:text-blue-400 transition">
+                <button className="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition">
                   <FaComment className="w-4 h-4" /> <span>{item.comments?.length || 0}</span>
                 </button>
-                <button className="flex items-center gap-1 text-gray-400 hover:text-blue-400 transition">
-                  <FaEye size={20} /> <span>{item.view}</span> 
+                <button className="flex items-center gap-1 text-gray-300 hover:text-green-400 transition">
+                  <FaEye className="w-4 h-4" /> <span>{item.view}</span>
                 </button>
               </div>
             </div>
           </div>
         ))}
-        </div>
-      </main>
-      {hasMore && (
-      <div className="flex justify-center mt-8">
-        <button
-          onClick={fetchArts}
-          className="font-inter px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300"
-        >
-          🚀 Show More
-        </button>
       </div>
-    )}
-      <Footer />
-    </div>
+
+      {hasMore && (
+        <div className="flex justify-center mt-8">
+          <button
+            onClick={fetchArts}
+            className="font-inter px-6 py-3 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white font-semibold shadow-lg hover:scale-105 hover:shadow-2xl transition-all duration-300"
+          >
+            🚀 Show More
+          </button>
+        </div>
+      )}
+    </main>
+
+    <Footer />
+  </div>
     </>
   );
 }
