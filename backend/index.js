@@ -21,19 +21,23 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+const store = MongoStore.create({
+    mongoUrl: process.env.MONGO_URL,
+    collectionName: "sessions"
+  });
 app.use(session({
     secret: "ITS_MY_SECRET",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.MONGO_URL }),
+    store,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24,
-        httpOnly: true,
-        sameSite: "lax",
-        secure: false
+      maxAge: 1000 * 60 * 60 * 24,
+      httpOnly: true,
+      sameSite: "lax",
+      secure: false
     }
-}));
+  }));
+  
 
 app.use("/api/user", limiter, AuthRoutes);
 app.use("/api/arts", limiter, ArtRoutes);

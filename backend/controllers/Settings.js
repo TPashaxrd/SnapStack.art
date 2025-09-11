@@ -1,6 +1,15 @@
-const express = require("express");
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const sessionStore = require("connect-mongo")
+const mongoose = require("mongoose");
+
+async function logoutAllSessions(userId) {
+  const db = mongoose.connection.db;
+  const collection = db.collection("sessions");
+
+  await collection.deleteMany({ "session.userId": userId.toString() });
+}
+
 
 function isAuth(req, res, next) {
     if(!req.session.userId) return res.status(401).json({ message: "Not logged in" })
@@ -71,6 +80,9 @@ const changePassword = async (req, res) => {
   
       const hashed = await bcrypt.hash(newPassword, 10);
       user.password = hashed;
+
+      await logoutAllSessions(user._id)
+
       await user.save();
   
       res.json({ message: "Password updated successfully" });

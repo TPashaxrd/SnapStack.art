@@ -47,6 +47,14 @@ interface Art {
   date: string;
 }
 
+interface Banneds {
+  userUsername: string;
+  userEmail: string;
+  reason: string;
+  date: Date;
+  _id: string;
+}
+
 const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
   if (!visible) return null;
   return (
@@ -63,24 +71,28 @@ const Admin: React.FC = () => {
   const [stats, setStats] = useState<Stats>({ UserCount: 0, ArtCount: 0, CommentsCount: 0, SubsCount: 0 });
   const [users, setUsers] = useState<User[]>([]);
   const [arts, setArts] = useState<Art[]>([]);
+  const [banneds, setBanneds] = useState<Banneds[]>([])
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
   const [authMessage, setAuthMessage] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editArt, setEditArt] = useState<Art | null>(null);
-  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "arts">("dashboard");
+  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "banneds" | "arts">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
+
 
   const checkPassword = async () => {
     try {
-      const [totalsRes, usersRes, artsRes] = await Promise.all([
+      const [totalsRes, usersRes, artsRes, bannedRes] = await Promise.all([
         axios.post("http://localhost:5000/api/dashboard/totals", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/users", { password }, { withCredentials: true }),
-        axios.post("http://localhost:5000/api/dashboard/arts", { password }, { withCredentials: true })
+        axios.post("http://localhost:5000/api/dashboard/arts", { password }, { withCredentials: true }),
+        axios.post("http://localhost:5000/api/dashboard/banneds", { password}, { withCredentials: true})
       ]);
       setArts(artsRes.data.arts || []);
       setUsers(usersRes.data.users || []);
+      setBanneds(bannedRes.data || [])
       if (totalsRes.data.success) {
         setStats(totalsRes.data.dashboard);
         setIsAdmin(true);
@@ -95,18 +107,29 @@ const Admin: React.FC = () => {
     }
   };
 
-  const deleteUser = async (id: string) => {
-    if (!confirm("Delete this user?")) return;
+  const deleteUser = async (id: string, username: string, email: string) => {
+    const reason = prompt("Enter ban reason:") || "No reason provided";
+    if (!confirm(`Ban & delete user ${username}?`)) return;
+  
     try {
-      await axios.delete(`http://localhost:5000/api/dashboard/users/${id}`, {
-        data: { password },
+      const res = await axios.delete(`http://localhost:5000/api/dashboard/users/${id}`, {
+        data: { password, reason, userUserId: id, userEmail: email, userUsername: username },
         withCredentials: true,
       });
-      setUsers(users.filter((u) => u._id !== id));
-    } catch {
-      alert("❌ Failed to delete user");
+  
+      if (res.data.success) {
+        setUsers(users.filter((u) => u._id !== id));
+        toast.success(`User ${username} banned & deleted`);
+      } else {
+        toast.error(`❌ Failed: ${res.data.message}`);
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error("❌ Failed to delete user");
     }
   };
+  
+  
 
   const deleteArt = async (id: string) => {
     if (!confirm("Delete this art?")) return;
@@ -162,11 +185,11 @@ const Admin: React.FC = () => {
         <aside className="w-full md:w-60 bg-gray-800 rounded-xl p-5 shadow-lg">
           <h2 className="text-xl font-bold text-indigo-400 mb-4">Admin Panel</h2>
           <ul className="space-y-2">
-            {["dashboard", "arts", "users"].map(section => (
+            {["dashboard", "arts", "banneds", "users" ].map(section => (
               <li
                 key={section}
                 className={`p-2 rounded-lg cursor-pointer transition-colors ${activeSection === section ? "bg-indigo-600 font-inter" : "hover:bg-indigo-500/30"}`}
-                onClick={() => setActiveSection(section as "dashboard" | "users" | "arts")}
+                onClick={() => setActiveSection(section as "dashboard" | "users" | "banneds" | "arts")}
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </li>
@@ -210,6 +233,33 @@ const Admin: React.FC = () => {
                   ))}
                 </div>
               )}
+
+            {activeSection === "banneds" && (
+              <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg p-4">
+                <h2 className="text-2xl font-semibold text-indigo-300 mb-4">Banned Users</h2>
+                <table className="min-w-full divide-y divide-gray-700 text-sm">
+                  <thead>
+                    <tr>
+                      <th className="px-4 py-2 text-left">Username</th>
+                      <th className="px-4 py-2 text-left">Email</th>
+                      <th className="px-4 py-2 text-left">Reason</th>
+                      <th className="px-4 py-2 text-left">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-700">
+                    {banneds?.map(banned => (
+                      <tr key={banned._id}>
+                        <td className="px-4 py-2">{banned.userUsername}</td>
+                        <td className="px-4 py-2">{banned.userEmail}</td>
+                        <td className="px-4 py-2">{banned.reason}</td>
+                        <td className="px-4 py-2">{new Date(banned.date).toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
 
               {activeSection === "arts" && (
                 <div className="overflow-x-auto bg-gray-900 rounded-xl shadow-lg p-4">
@@ -295,7 +345,7 @@ const Admin: React.FC = () => {
                               <button onClick={() => { setEditUser(user); setModalVisible(true); }} title="Edit User" className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 text-white">
                                 <BiEdit />
                               </button>
-                              <button onClick={() => deleteUser(user._id)} title="Delete User" className="p-2 bg-red-500 rounded-lg hover:bg-red-600 text-white">
+                              <button onClick={() => deleteUser(user._id, user.username, user.email)} title="Delete User" className="p-2 bg-red-500 rounded-lg hover:bg-red-600 text-white">
                                 <BsBan />
                               </button>
                               <button
