@@ -46,6 +46,14 @@ const users = async (req, res) => {
        res.status(500).json({ message: error.message }) 
     }
 }
-  
 
-module.exports = { totals, users }
+const arts = async (req, res) => {
+  try {
+    const arts = await Arts.find()
+    res.status(201).json({ arts })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+module.exports = { totals, users, arts }
