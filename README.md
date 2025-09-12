@@ -105,3 +105,11 @@ Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için LICENSE dos
 | **Batın Eymen Durmuskaya**   | Owner | Backend          |
 | **Abdullah K.**               | CEO   | Frontend         |
 | **Fatih Sultan Mehmet Ünal**  | CEO   | Designer         |
+
+>Toprak Dogan
+
+>>Batın Eymen Durmuskaya
+
+>>> Abdullah K
+
+>>> Fatih Sultan Mehmet Unal

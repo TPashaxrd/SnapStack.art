@@ -72,9 +72,21 @@ export default function Login() {
           >
             Login
           </button>
-          <p className="text-white/70 text-center mt-2">
-            Don’t have an account? <span onClick={() => window.location.href = "/register" } className="underline cursor-pointer hover:text-white">Register</span>
+          <div className="text-center mt-4 text-white/70 text-sm">
+          <p>
+            Forgot password?{" "}
+            <span
+              onClick={() => window.location.href = "/forgot-password"}
+              className="underline cursor-pointer hover:text-white transition-colors duration-200"
+            >
+              Here
+            </span>.
           </p>
+          <p className="mt-1">
+            Don’t have an account?{" "}
+            <span onClick={() => window.location.href = "/register"} className="underline cursor-pointer hover:text-white transition-colors duration-200">Register</span>
+          </p>
+        </div>
         </div>
       </div>
       <Footer />

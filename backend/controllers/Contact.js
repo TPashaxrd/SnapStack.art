@@ -12,8 +12,6 @@ const CreateContact = async (req, res) => {
         const existing = await Contact.findOne({ message })
         if(existing) return res.status(400).json({ message: "Why you did spam?" })
 
-        // IF SAME MESSAGE = 404 (SPAM)
-
         const existingEmail = await Contact.findOne({ email })
         if(existingEmail) return res.status(400).json({ message: "Your email already exist. We will contact to u."})
         
@@ -32,6 +30,26 @@ const CreateContact = async (req, res) => {
     }
 }
 
+const DeleteContact = async (req, res) => {
+    try {
+        const contactId = req.params.id;
+        const contact = await Contact.findByIdAndDelete(contactId)
+        if(!contact) return res.status(400).json({ message: "Contact data isn't found." })
+
+        res.json({ message: "Successfully deleted.", contact: contactId})
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+}
+
+const BanIP = async(req, res) => {
+    try {
+        
+    } catch (error) {
+        
+    }
+}
+
 const showAllContacts = async (req, res) => {
     try {
         const contacts = await Contact.find()
@@ -41,4 +59,4 @@ const showAllContacts = async (req, res) => {
     }
 }
 
-module.exports = { CreateContact, showAllContacts }
+module.exports = { CreateContact, showAllContacts, DeleteContact }

@@ -55,6 +55,15 @@ interface Banneds {
   _id: string;
 }
 
+interface Contacts {
+  _id: string;
+  title: string;
+  message: string;
+  email: string;
+  IP_Address: string;
+  date: string;
+}
+
 const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
   if (!visible) return null;
   return (
@@ -78,18 +87,20 @@ const Admin: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editArt, setEditArt] = useState<Art | null>(null);
-  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "banneds" | "arts">("dashboard");
+  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "banneds" | "arts" | "contacts">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [contacts, setContacts] = useState<Contacts[]>([])
 
   const checkPassword = async () => {
     try {
-      const [totalsRes, usersRes, artsRes, bannedRes] = await Promise.all([
+      const [totalsRes, usersRes, artsRes, bannedRes, contactRes] = await Promise.all([
         axios.post("http://localhost:5000/api/dashboard/totals", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/users", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/arts", { password }, { withCredentials: true }),
-        axios.post("http://localhost:5000/api/dashboard/banneds", { password}, { withCredentials: true})
+        axios.post("http://localhost:5000/api/dashboard/banneds", { password}, { withCredentials: true}),
+        axios.post("http://localhost:5000/api/contact/all", { password }, { withCredentials: true })
       ]);
+      setContacts(contactRes.data.contacts || []);
       setArts(artsRes.data.arts || []);
       setUsers(usersRes.data.users || []);
       setBanneds(bannedRes.data || [])
@@ -129,7 +140,18 @@ const Admin: React.FC = () => {
     }
   };
   
-  
+  const deleteContact = async (id: string) => {
+    if(!confirm("Delete this contact?")) return;
+    try {
+      await axios.delete(`http://localhost:5000/api/dashboard/contact-delete/${id}`, {
+        data: { password },
+        withCredentials: true
+      })
+      alert("Successfully deleted.")
+    } catch (error) {
+      alert("Failed.")
+    }
+  }
 
   const deleteArt = async (id: string) => {
     if (!confirm("Delete this art?")) return;
@@ -185,11 +207,11 @@ const Admin: React.FC = () => {
         <aside className="w-full md:w-60 bg-gray-800 rounded-xl p-5 shadow-lg">
           <h2 className="text-xl font-bold text-indigo-400 mb-4">Admin Panel</h2>
           <ul className="space-y-2">
-            {["dashboard", "arts", "banneds", "users" ].map(section => (
+            {["dashboard", "arts", "banneds", "users", "contacts" ].map(section => (
               <li
                 key={section}
                 className={`p-2 rounded-lg cursor-pointer transition-colors ${activeSection === section ? "bg-indigo-600 font-inter" : "hover:bg-indigo-500/30"}`}
-                onClick={() => setActiveSection(section as "dashboard" | "users" | "banneds" | "arts")}
+                onClick={() => setActiveSection(section as "dashboard" | "users" | "banneds" | "contacts" | "arts")}
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </li>
@@ -233,6 +255,34 @@ const Admin: React.FC = () => {
                   ))}
                 </div>
               )}
+
+            {activeSection === "contacts" && (
+              <div className="overflow-x-auto bg-gray-900 rounded-xl shadow-xl p-4">
+                <h2 className="text-2xl font-bold text-purple-400 mb-4">Contacts</h2>
+                <table className="min-w-full divide-y divide-gray-700 text-sm">
+                  <thead className="bg-gray-800">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Title</th>
+                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Message</th>
+                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Email</th>
+                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">IP Address</th>
+                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-winder">Controllers</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-700">
+                    {contacts.map((contact) => (
+                      <tr key={contact._id} className="hover:bg-gray-800 transition-colors duration-200">
+                        <td className="px-4 py-2">{contact.title}</td>
+                        <td className="px-4 py-2">{contact.message}</td>
+                        <td className="px-4 py-2">{contact.email}</td>
+                        <td className="px-4 py-2">{contact.IP_Address}</td>
+                        <td onClick={() => deleteContact(contact._id)} className="px-4 py-2"><BiTrash size={20} /></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
             {activeSection === "banneds" && (
               <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg p-4">
