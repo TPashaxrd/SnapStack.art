@@ -17,13 +17,6 @@ const transporter = nodemailer.createTransport({
 })
 
 const totals = async (req, res) => {
-    // const { password } = req.body;
-    // const ADMIN_PASSWORD = process.env.ADMIN_KEY;
-  
-    // if (password !== ADMIN_PASSWORD) {
-    //   return res.status(401).json({ success: false, message: "Unauthorized" });
-    // }
-  
     try {
       const UserCount = await User.countDocuments();
       const ArtCount = await Arts.countDocuments();
@@ -44,11 +37,6 @@ const totals = async (req, res) => {
   };
 
 const users = async (req, res) => {
-    // const { password } = req.body;
-    // const ADMIN_PASSWORD = process.env.ADMIN_KEY;
-    // if(password !== ADMIN_PASSWORD) {
-    //     return res.status(401).json({ success: false, message: "Unauthorized" })
-    // }
     try {
         const users = await User.find()
         res.status(201).json({ users })

@@ -109,7 +109,6 @@ const getArtById = async (req, res) => {
     const liked = userId ? art.likedBy.includes(userId) : false;
 
     res.status(200).json({ ...art.toObject(), liked })
-    // res.json(art)
   } catch (error) {
     res.status(500).json({ message: error })
   }

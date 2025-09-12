@@ -56,14 +56,16 @@ export default function Register() {
 
   return (
     <>
-            <div className="absolute -top-24 -left-24 w-44 h-44 bg-purple-500 rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
-        <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-pink-500 rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
-        <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-purple-700/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
+      <div className="absolute -top-24 -left-24 w-44 h-44 bg-[#6B46C1] rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
+      <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-[#7C3AED] rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
+      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#6B46C1]/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
       <Header />
-      <div className="flex flex-col items-center justify-center mt-16 px-4 min-h-[calc(100vh-200px)]">
-        <div className="bg-white/10 backdrop-blur-lg rounded-3xl shadow-2xl p-10 max-w-md w-full flex flex-col gap-6">
-          <h1 className="text-3xl font-extrabold text-white text-center">Register to SnapStack</h1>
-
+      <div className="flex flex-col items-center justify-center mt-16 px-4 min-h-[calc(100vh-200px)] bg-[#0F0F0F]">
+        <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl shadow-xl border border-gray-800/50 p-10 max-w-md w-full flex flex-col gap-6">
+          <h1 className="text-3xl font-extrabold text-gray-100 text-center tracking-tight font-inter">
+            Register to SnapStack
+          </h1>
+  
           {error && (
             <div
               className={`text-center py-2 px-3 rounded-lg font-semibold ${
@@ -73,40 +75,46 @@ export default function Register() {
               {error}
             </div>
           )}
-
+  
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            className="w-full px-4 py-3 rounded-lg bg-[#2D2D2D] border border-gray-800/50 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B46C1] transition-all duration-300"
           />
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            className="w-full px-4 py-3 rounded-lg bg-[#2D2D2D] border border-gray-800/50 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B46C1] transition-all duration-300"
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+            className="w-full px-4 py-3 rounded-lg bg-[#2D2D2D] border border-gray-800/50 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B46C1] transition-all duration-300"
           />
-
-          <p className="text-white/70 text-center mt-2">
-            Already have account? <span onClick={() => window.location.href = "/login" } className="underline cursor-pointer hover:text-white">Login</span>
+  
+          <p className="text-gray-400 text-center mt-2 text-sm">
+            Already have an account?{" "}
+            <span
+              onClick={() => (window.location.href = "/login")}
+              className="underline cursor-pointer hover:text-[#6B46C1] transition-all duration-200"
+            >
+              Login
+            </span>
           </p>
           <button
             onClick={Submit}
-            className="w-full py-3 rounded-xl bg-pink-500 hover:bg-pink-600 text-white font-bold text-lg transition shadow-lg"
+            className="w-full py-3 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] text-white font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-[#6B46C1]/50"
           >
             Submit
           </button>
-
-          <span className="text-white/70 text-center mt-2">Your IP Address: {IP_Address}</span>
+  
+          <span className="text-gray-400 text-center text-sm">Your IP Address: {IP_Address}</span>
         </div>
       </div>
       <Footer />

@@ -147,6 +147,7 @@ const Admin: React.FC = () => {
         data: { password },
         withCredentials: true
       })
+      
       alert("Successfully deleted.")
     } catch (error) {
       alert("Failed.")

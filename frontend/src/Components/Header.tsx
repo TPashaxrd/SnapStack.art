@@ -1,81 +1,160 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiHome, BiSearch, BiUser } from "react-icons/bi";
+import { FaSignOutAlt } from "react-icons/fa";
 
 interface MeData {
-    username: string;
-    email: string;
-    IP_Address: string;
+  username: string;
+  email: string;
+  IP_Address: string;
 }
 
 export default function Header() {
-  const [userData, setUserData] = useState<MeData | null>(null)
+  const [userData, setUserData] = useState<MeData | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const fetchMe = async () => {
-        try {
-            const res = await axios.get<{ user: MeData }>("http://localhost:5000/api/user/me", { withCredentials: true });
-            setUserData(res.data.user)
-        } catch (error: any) {
-          console.info("No login")
-        }
-    }
-    fetchMe()
-  }, [])
+      try {
+        const res = await axios.get<{ user: MeData }>("http://localhost:5000/api/user/me", {
+          withCredentials: true,
+        });
+        setUserData(res.data.user);
+      } catch (error: any) {
+        console.info("No login");
+      }
+    };
+    fetchMe();
+  }, []);
 
   return (
-    <header className="bg-gradient-to-br from-purple-700 via-pink-500 to-orange-400 text-black py-4 shadow-md">
-      <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
-
+    <header className="bg-[#0F0F0F] text-gray-100 font-inter py-4 shadow-xl border-b border-gray-800/50 sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div
-          onClick={() => window.location.href = "/"}
-          className="text-3xl cursor-pointer hover:text-black/70 font-extrabold tracking-wide"
+          onClick={() => (window.location.href = "/")}
+          className="text-3xl font-extrabold tracking-tight cursor-pointer bg-clip-text text-transparent bg-gradient-to-r from-[#6B46C1] to-[#7C3AED] hover:scale-105 transition-all duration-300"
         >
           SnapStack.art
         </div>
+
         {userData && (
-          <span className="text-xl font-inter">{userData.username}</span>
+          <span className="hidden lg:block text-lg font-semibold text-gray-100 hover:text-[#6B46C1] transition-all duration-300">
+            {userData.username}
+          </span>
         )}
 
-        <div className="hidden md:flex space-x-4">
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
-            <BiHome size={28} className="text-black hover:text-yellow-400 transition-colors" />
+        <nav className="hidden md:flex items-center space-x-4">
+          <a
+            href="/"
+            className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2"
+          >
+            <BiHome size={24} />
+            <span className="text-sm font-semibold">Home</span>
           </a>
-          {userData && (
-          <a href={`/profile/${userData.username}`} className="p-2 rounded-md hover:bg-gray-100 transition-colors">
-            <BiUser size={28} className="text-black hover:text-yellow-400 transition-colors" />
-          </a>
+          {userData ? (
+            <>
+              <a
+                href={`/profile/${userData.username}`}
+                className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2"
+              >
+                <BiUser size={24} />
+                <span className="text-sm font-semibold">Profile</span>
+              </a>
+              <a
+                href="/settings"
+                className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2"
+              >
+                <BiUser size={24} />
+                <span className="text-sm font-semibold">Settings</span>
+              </a>
+              <button
+                onClick={() => (window.location.href = "/logout")}
+                className="p-2 rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-red-500/50 transition-all duration-300 flex items-center gap-2"
+              >
+                <FaSignOutAlt size={24} />
+                <span className="text-sm font-semibold">Logout</span>
+              </button>
+            </>
+          ) : (
+            <a
+              href="/login"
+              className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2"
+            >
+              <BiUser size={24} />
+              <span className="text-sm font-semibold">Login</span>
+            </a>
           )}
-          <a href="#" className="p-2 rounded-md hover:bg-gray-100 transition-colors">
-            <BiSearch size={28} className="text-black hover:text-yellow-400 transition-colors" />
+          <a
+            href="/search"
+            className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2"
+          >
+            <BiSearch size={24} />
+            <span className="text-sm font-semibold">Search</span>
           </a>
-        </div>
+        </nav>
 
         <div className="md:hidden">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-black hover:text-yellow-400 focus:outline-none"
+            className="text-gray-100 hover:text-[#6B46C1] focus:outline-none transition-all duration-300 text-2xl"
           >
-            ☰
+            {mobileMenuOpen ? "✕" : "☰"}
           </button>
         </div>
       </div>
 
       {mobileMenuOpen && (
-        <div className="md:hidden shadow-md mt-2 px-4 py-2 flex flex-col space-y-2">
-          <a href="/" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiHome size={24} /> <span>Home</span>
-          </a>
-          <a 
-          href={userData ? '/settings' : '/login'}
-          className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiUser size={24} /> <span>Profile</span>
-          </a>
-          <a href="/search" className="p-2 rounded-md hover:bg-gray-100 transition-colors flex items-center space-x-2">
-            <BiSearch size={24} /> <span>Search</span>
-          </a>
-        </div>
+        <nav className="md:hidden bg-[#1A1A1A] shadow-xl mt-2 mx-4 py-4 rounded-lg border border-gray-800/50 animate-slide-down">
+          <div className="flex flex-col space-y-3 px-4">
+            <a
+              href="/"
+              className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+            >
+              <BiHome size={24} />
+              <span className="text-sm font-semibold">Home</span>
+            </a>
+            {userData ? (
+              <>
+                <a
+                  href={`/profile/${userData.username}`}
+                  className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+                >
+                  <BiUser size={24} />
+                  <span className="text-sm font-semibold">Profile</span>
+                </a>
+                <a
+                  href="/settings"
+                  className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+                >
+                  <BiUser size={24} />
+                  <span className="text-sm font-semibold">Settings</span>
+                </a>
+                <button
+                  onClick={() => (window.location.href = "/logout")} // Assuming a logout route
+                  className="p-2 rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-red-500/50 transition-all duration-300 flex items-center gap-2 text-white"
+                >
+                  <FaSignOutAlt size={24} />
+                  <span className="text-sm font-semibold">Logout</span>
+                </button>
+              </>
+            ) : (
+              <a
+                href="/login"
+                className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+              >
+                <BiUser size={24} />
+                <span className="text-sm font-semibold">Login</span>
+              </a>
+            )}
+            <a
+              href="/search"
+              className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+            >
+              <BiSearch size={24} />
+              <span className="text-sm font-semibold">Search</span>
+            </a>
+          </div>
+        </nav>
       )}
     </header>
   );

@@ -124,162 +124,229 @@ const SearchComponent: React.FC = () => {
 
   return (
     <>
-     <Header />
-    <ThemeProvider theme={theme}>
-      <Box p={{ xs: 2, sm: 4 }} minHeight="100vh" bgcolor="background.default">
-        <Typography variant="h3" textAlign="center" gutterBottom color="primary">
-          🔍 Search Users & Arts
-        </Typography>
-
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          justifyContent="center"
-          mb={4}
-          alignItems="center"
-        >
-          <TextField
-            variant="outlined"
-            placeholder="Search for users or arts..."
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            sx={{ backgroundColor: "#1e1e1e", borderRadius: 2, flex: 1 }}
-            InputProps={{ style: { color: "white" } }}
-          />
-          <Button variant="contained" color="primary" onClick={() => fetchSearch(true)}>
-            Search
-          </Button>
-        </Stack>
-
-        {loading && (
-          <Box display="flex" justifyContent="center" my={4}>
-            <CircularProgress color="secondary" />
-          </Box>
-        )}
-        {error && (
-          <Typography color="error" textAlign="center" mb={4}>
-            {error}
+      <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#6B46C1] rounded-full opacity-20 rotate-12 animate-pulse-slow blur-2xl"></div>
+      <div className="absolute -bottom-28 -right-24 w-80 h-80 bg-[#7C3AED] rounded-full opacity-15 rotate-45 animate-pulse-slow blur-2xl"></div>
+      <Header />
+      <ThemeProvider theme={theme}>
+        <Box p={{ xs: 2, sm: 4 }} minHeight="100vh" bgcolor="#0F0F0F">
+          <Typography variant="h3" textAlign="center" gutterBottom sx={{ color: "#6B46C1", fontWeight: "bold", fontFamily: "Inter", letterSpacing: "-0.025em" }}>
+            🔍 Search Users & Arts
           </Typography>
-        )}
-
-        {/* Users */}
-        <Box mb={6}>
-          <Typography variant="h4" color="primary" gutterBottom>
-            Users
-          </Typography>
-          <Grid container spacing={3}>
-            {searchResult.users.length > 0 ? (
-              searchResult.users.map(user => (
-                <Grid item xs={12} sm={6} md={4} key={user._id}>
-                  <Card
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      p: 2,
-                      bgcolor: "#1e1e1e",
-                      borderRadius: 3,
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                      transition: "0.3s",
-                      "&:hover": { transform: "scale(1.03)", boxShadow: "0 8px 40px rgba(0,0,0,0.7)" }
-                    }}
-                  >
-                    <Avatar src={`http://localhost:5000${user.avatarUrl}`} sx={{ width: 56, height: 56 }} />
-                    <Box ml={2}>
-                      <Typography variant="h6">{user.username}</Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {user.bio}
-                      </Typography>
-                    </Box>
-                  </Card>
-                </Grid>
-              ))
-            ) : loading ? (
-              [1, 2, 3].map(i => (
-                <Grid item xs={12} sm={6} md={4} key={i}>
-                  <Skeleton variant="rectangular" height={80} sx={{ borderRadius: 3 }} />
-                </Grid>
-              ))
-            ) : (
-              <Typography color="text.secondary">No users found.</Typography>
-            )}
-          </Grid>
-        </Box>
-
-        <Divider sx={{ my: 4, borderColor: "#333" }} />
-
-        {/* Arts */}
-        <Box>
-          <Typography variant="h4" color="primary" gutterBottom>
-            Arts
-          </Typography>
-          <Grid container spacing={3}>
-            {searchResult.arts.length > 0 ? (
-              searchResult.arts.map(art => (
-                <Grid item xs={12} sm={6} md={4} key={art._id}>
-                  <Card
-                    sx={{
-                      bgcolor: "#1e1e1e",
-                      borderRadius: 3,
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                      transition: "0.3s",
-                      "&:hover": { transform: "scale(1.03)", boxShadow: "0 8px 40px rgba(0,0,0,0.7)" }
-                    }}
-                  >
-                    <Box sx={{ position: "relative", pt: "100%", overflow: "hidden" }}>
-                      <CardMedia
-                        component="img"
-                        image={`http://localhost:5000${art.imageUrl}`}
-                        alt={art.title}
-                        sx={{
-                          position: "absolute",
-                          top: 0,
-                          left: 0,
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover"
-                        }}
+  
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            justifyContent="center"
+            mb={4}
+            alignItems="center"
+          >
+            <TextField
+              variant="outlined"
+              placeholder="Search for users or arts..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              sx={{
+                flex: 1,
+                "& .MuiOutlinedInput-root": {
+                  backgroundColor: "#2D2D2D",
+                  borderRadius: "8px",
+                  border: "1px solid rgba(75, 85, 99, 0.5)", // border-gray-800/50
+                  color: "#E5E7EB", // text-gray-100
+                  "&:hover": {
+                    borderColor: "#6B46C1",
+                  },
+                  "&.Mui-focused": {
+                    borderColor: "#6B46C1",
+                    boxShadow: "0 0 0 2px rgba(107, 70, 193, 0.5)", // focus:ring-[#6B46C1]
+                  },
+                  "& .MuiOutlinedInput-notchedOutline": {
+                    border: "none",
+                  },
+                },
+                "& .MuiInputBase-input": {
+                  fontFamily: "Inter",
+                  color: "#E5E7EB", // text-gray-100
+                  "&::placeholder": {
+                    color: "#9CA3AF", // text-gray-400
+                    opacity: 1,
+                  },
+                },
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={() => fetchSearch(true)}
+              sx={{
+                backgroundColor: "#6B46C1",
+                color: "#FFFFFF",
+                fontFamily: "Inter",
+                fontWeight: "semibold",
+                borderRadius: "8px",
+                padding: "8px 16px",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "#7C3AED",
+                  boxShadow: "0 4px 14px rgba(107, 70, 193, 0.5)", // hover:shadow-[#6B46C1]/50
+                },
+              }}
+            >
+              Search
+            </Button>
+          </Stack>
+  
+          {loading && (
+            <Box display="flex" justifyContent="center" my={4}>
+              <CircularProgress sx={{ color: "#6B46C1" }} />
+            </Box>
+          )}
+          {error && (
+            <Typography textAlign="center" mb={4} sx={{ color: "#F87171", fontFamily: "Inter" }}>
+              {error}
+            </Typography>
+          )}
+  
+          {/* Users */}
+          <Box mb={6}>
+            <Typography variant="h4" gutterBottom sx={{ color: "#6B46C1", fontWeight: "bold", fontFamily: "Inter", letterSpacing: "-0.025em" }}>
+              Users
+            </Typography>
+            <Grid container spacing={3}>
+              {searchResult.users.length > 0 ? (
+                searchResult.users.map((user) => (
+                  <Grid item xs={12} sm={6} md={4} key={user._id}>
+                    <Card
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        p: 2,
+                        bgcolor: "#1A1A1A",
+                        borderRadius: "12px",
+                        border: "1px solid rgba(75, 85, 99, 0.5)", // border-gray-800/50
+                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)", // shadow-xl
+                        transition: "all 0.3s",
+                        "&:hover": {
+                          transform: "scale(1.03)",
+                          boxShadow: "0 8px 40px rgba(107, 70, 193, 0.5)", // hover:shadow-[#6B46C1]/50
+                        },
+                      }}
+                    >
+                      <Avatar
+                        src={`http://localhost:5000${user.avatarUrl}`}
+                        sx={{ width: 56, height: 56, border: "2px solid #6B46C1" }}
                       />
-                    </Box>
-                    <CardContent>
-                      <Typography variant="h6" color="secondary" noWrap>
-                        {art.title}
-                      </Typography>
-                      {art.tags && art.tags.length > 0 && (
-                        <Stack direction="row" spacing={1} mt={1} flexWrap="wrap">
-                          {art.tags.map((tag, idx) => (
-                            <Chip key={idx} label={`#${tag}`} color="secondary" size="small" />
-                          ))}
+                      <Box ml={2}>
+                        <Typography variant="h6" sx={{ color: "#E5E7EB", fontFamily: "Inter", fontWeight: "semibold" }}>
+                          {user.username}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: "#9CA3AF", fontFamily: "Inter" }}>
+                          {user.bio}
+                        </Typography>
+                      </Box>
+                    </Card>
+                  </Grid>
+                ))
+              ) : loading ? (
+                [1, 2, 3].map((i) => (
+                  <Grid item xs={12} sm={6} md={4} key={i}>
+                    <Skeleton variant="rectangular" height={80} sx={{ borderRadius: "12px", bgcolor: "#2D2D2D" }} />
+                  </Grid>
+                ))
+              ) : (
+                <Typography sx={{ color: "#9CA3AF", fontFamily: "Inter" }}>No users found.</Typography>
+              )}
+            </Grid>
+          </Box>
+  
+          <Divider sx={{ my: 4, borderColor: "rgba(75, 85, 99, 0.5)" }} />
+  
+          <Box>
+            <Typography variant="h4" gutterBottom sx={{ color: "#6B46C1", fontWeight: "bold", fontFamily: "Inter", letterSpacing: "-0.025em" }}>
+              Arts
+            </Typography>
+            <Grid container spacing={3}>
+              {searchResult.arts.length > 0 ? (
+                searchResult.arts.map((art) => (
+                  <Grid item xs={12} sm={6} md={4} key={art._id}>
+                    <Card
+                      sx={{
+                        bgcolor: "#1A1A1A",
+                        borderRadius: "12px",
+                        border: "1px solid rgba(75, 85, 99, 0.5)", // border-gray-800/50
+                        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.3)", // shadow-xl
+                        transition: "all 0.3s",
+                        "&:hover": {
+                          transform: "scale(1.03)",
+                          boxShadow: "0 8px 40px rgba(107, 70, 193, 0.5)", // hover:shadow-[#6B46C1]/50
+                        },
+                      }}
+                    >
+                      <Box sx={{ position: "relative", pt: "100%", overflow: "hidden" }}>
+                        <CardMedia
+                          component="img"
+                          image={`http://localhost:5000${art.imageUrl}`}
+                          alt={art.title}
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            transition: "transform 0.5s",
+                            "&:hover": { transform: "scale(1.1)" },
+                          }}
+                        />
+                      </Box>
+                      <CardContent>
+                        <Typography variant="h6" sx={{ color: "#6B46C1", fontFamily: "Inter", fontWeight: "semibold", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          {art.title}
+                        </Typography>
+                        {art.tags && art.tags.length > 0 && (
+                          <Stack direction="row" spacing={1} mt={1} flexWrap="wrap">
+                            {art.tags.map((tag, idx) => (
+                              <Chip
+                                key={idx}
+                                label={`#${tag}`}
+                                sx={{
+                                  bgcolor: "#2D2D2D",
+                                  color: "#E5E7EB",
+                                  fontFamily: "Inter",
+                                  "&:hover": { bgcolor: "#6B46C1", color: "#FFFFFF" },
+                                }}
+                                size="small"
+                              />
+                            ))}
+                          </Stack>
+                        )}
+                        <Stack direction="row" spacing={2} mt={2} sx={{ color: "#9CA3AF" }}>
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <FaHeart sx={{ color: "#F87171" }} /> <Typography sx={{ fontFamily: "Inter" }}>{art.likes || 0}</Typography>
+                          </Box>
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <FaComment sx={{ color: "#6B46C1" }} /> <Typography sx={{ fontFamily: "Inter" }}>{art.comments?.length || 0}</Typography>
+                          </Box>
+                          <Box display="flex" alignItems="center" gap={1}>
+                            <FaEye sx={{ color: "#10B981" }} /> <Typography sx={{ fontFamily: "Inter" }}>{art.view || 0}</Typography>
+                          </Box>
                         </Stack>
-                      )}
-                      <Stack direction="row" spacing={2} mt={2} color="text.secondary">
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <FaHeart /> <Typography>{art.likes || 0}</Typography>
-                        </Box>
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <FaComment /> <Typography>{art.comments?.length || 0}</Typography>
-                        </Box>
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <FaEye /> <Typography>{art.view || 0}</Typography>
-                        </Box>
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))
-            ) : loading ? (
-              [1, 2, 3].map(i => (
-                <Grid item xs={12} sm={6} md={4} key={i}>
-                  <Skeleton variant="rectangular" height={200} sx={{ borderRadius: 3 }} />
-                </Grid>
-              ))
-            ) : (
-              <Typography color="text.secondary">No arts found.</Typography>
-            )}
-          </Grid>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))
+              ) : loading ? (
+                [1, 2, 3].map((i) => (
+                  <Grid item xs={12} sm={6} md={4} key={i}>
+                    <Skeleton variant="rectangular" height={200} sx={{ borderRadius: "12px", bgcolor: "#2D2D2D" }} />
+                  </Grid>
+                ))
+              ) : (
+                <Typography sx={{ color: "#9CA3AF", fontFamily: "Inter" }}>No arts found.</Typography>
+              )}
+            </Grid>
+          </Box>
         </Box>
-      </Box>
-    </ThemeProvider>
-    <Footer />
+      </ThemeProvider>
+      <Footer />
     </>
   );
 };
