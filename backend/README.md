@@ -53,8 +53,8 @@ SnapStack.art, kullanıcıların kendi dijital sanat eserlerini paylaşabileceğ
 ## 🌐 URLs
 
 ```fix
-Canlı: https://snapstack.art
-Local: http://localhost:5000
+InLive: https://snapstack.art
+InLocal: http://localhost:5000
 ```
 
 ---
@@ -64,8 +64,8 @@ Local: http://localhost:5000
 ### Frontend
 
 ```bash
-git clone https://github.com/kullanici/snapstack-frontend.git
-cd snapstack-frontend
+git clone https://github.com/TPashaxrd/snapstack.art.git
+cd frontend
 npm install
 npm run dev
 ```
@@ -73,8 +73,8 @@ npm run dev
 ### Backend
 
 ```bash
-git clone https://github.com/kullanici/snapstack-backend.git
-cd snapstack-backend
+git clone https://github.com/TPashaxrd/snapstack.art.git
+cd cd backend
 npm install
 npm run start
 ```
@@ -95,5 +95,13 @@ npm run start
 Bu proje MIT Lisansı ile lisanslanmıştır. Daha fazla bilgi için LICENSE dosyasına bakın.
 
 ---
-
 > SnapStack.art ile dijital sanat dünyasını keşfetmek hiç bu kadar kolay olmamıştı!
+---
+# 🚀 _Creators_
+
+| Name                         | Role  | Specialty          |
+|-------------------------------|-------|------------------|
+| **Toprak Doğan**              | Owner | Fullstack        |
+| **Batın Eymen Durmuskaya**   | Owner | Backend          |
+| **Abdullah K.**               | CEO   | Frontend         |
+| **Fatih Sultan Mehmet Ünal**  | CEO   | Designer         |
