@@ -14,6 +14,7 @@ const { limiter } = require("./middlewares/rateLimit");
 const SearchRoutes = require("./routes/Search");
 const PasswordRoutes = require("./routes/Password");
 const ContactRoutes = require("./routes/Contact");
+const SaveRoutes = require("./routes/Save");
 
 db();
 
@@ -50,6 +51,7 @@ app.use("/api/dashboard",  DashboardRoutes)
 app.use("/api/search", SearchRoutes)
 app.use("/api/password", PasswordRoutes)
 app.use("/api/contact", ContactRoutes)
+app.use("/api/save", SaveRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 5000;

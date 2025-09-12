@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import Footer from "./Components/Footer";
 import axios from "axios";
-import { FaComment, FaEye, FaHeart, FaPaintBrush } from "react-icons/fa";
+import { FaBookmark, FaComment, FaEye, FaHeart, FaPaintBrush } from "react-icons/fa";
 import Header from "./Components/Header";
 import { GrClose } from "react-icons/gr";
+import { BiBookmark } from "react-icons/bi";
 
 export default function ReelsFeed() {
   const [arts, setArts] = useState<any[]>([]);
@@ -13,7 +14,8 @@ export default function ReelsFeed() {
   const limit = 7;
   const [hasMore, setHasMore] = useState(true);
   const [notLoggedin, setNotLoggedIn] = useState(false)
-  const [currentUser, setCurrentUser] = useState<any>(null)
+  const [_, setCurrentUser] = useState<any>(null)
+  const [saveds, setSaveds] = useState<string[]>([])
 
   useEffect(() => {
     async function fetchUser() {
@@ -33,9 +35,6 @@ export default function ReelsFeed() {
   function loggedToggle() {
     setNotLoggedIn(!notLoggedin)
   }
-
-  console.log(currentUser)
-  console.clear()
 
   const fetchArts = async () => {
     try {
@@ -66,9 +65,54 @@ export default function ReelsFeed() {
     }
   }
 
+useEffect(() => {
+  async function fetchSaveds() {
+    try {
+      const res = await axios.get("http://localhost:5000/api/save/my-saveds", {
+        withCredentials: true,
+      });
+      setSaveds(res.data.savedArts.map((s: any) => s.art._id));
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  fetchSaveds();
+}, []);
+
+const saveArt = async (id: string) => {
+  try {
+    await axios.post(
+      "http://localhost:5000/api/save/save",
+      { artId: id },
+      { withCredentials: true }
+    );
+    setSaveds(prev => [...prev, id]);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const unsaveArt = async (id: string) => {
+  try {
+    const res = await axios.delete(`http://localhost:5000/api/save/unsave/${id}`, {
+      withCredentials: true
+    });
+    console.log(res.data);
+    setSaveds(prev => prev.filter(savedId => savedId !== id));
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+  }
+};
+
+
+
+  
   useEffect(() => {
     checkData()
   }, [])
+
+
+  
 
   useEffect(() => {
     fetchArts();
@@ -84,7 +128,7 @@ export default function ReelsFeed() {
 
   return (
     <>      
-    <div className="bg-gray-900 min-h-screen text-white flex flex-col">
+    <div className="bg-black min-h-screen text-white flex flex-col">
     {notLoggedin && (
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 backdrop-blur-md">
         <div className="relative bg-black/70 p-8 rounded-3xl shadow-2xl flex flex-col items-center gap-5 text-center max-w-sm w-full mx-4">
@@ -126,21 +170,29 @@ export default function ReelsFeed() {
     <Header />
 
     <main className="flex-1 p-4 md:p-8">
-      <div
-        onClick={() => (window.location.href = "/create-arts")}
-        className="flex items-center justify-center gap-3 px-6 py-3 mx-auto w-max bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 rounded-2xl shadow-lg hover:scale-105 hover:shadow-2xl transition-transform duration-300 cursor-pointer"
-      >
-        <FaPaintBrush className="w-5 h-5 text-white animate-bounce" />
-        <span className="text-white font-semibold text-lg font-roboto-condensed">
-          Share Your Art
-        </span>
+
+      <div className="flex text-sm font-semibold gap-2">
+        <button
+          onClick={() => (window.location.href = "/create-arts")}
+          className="flex items-center justify-center gap-3 px-6 py-3 rounded-lg bg-gray-900 border border-gray-700 text-gray-200 font-semibold shadow-md hover:bg-gray-800 hover:border-purple-500 hover:text-purple-400 transition-all duration-300 cursor-pointer"
+        >
+          <FaPaintBrush className="w-5 h-5 text-purple-400 animate-bounce" />
+          <span className="text-gray-200 font-roboto-condensed text-lg font-semibold">
+            Share Your Art
+          </span>
+        </button>
+
+
+        <button className="px-3 rounded bg-gray-900 border border-gray-700 text-gray-200 font-semibold shadow-md hover:bg-gray-800 hover:border-purple-500 hover:text-purple-400 transition-all duration-300 font-inter">
+          Saveds
+        </button>
       </div>
 
       <div className="flex flex-wrap mt-6 gap-6 justify-center">
         {arts.map((item) => (
           <div
             key={item._id}
-            onClick={() => window.location.href = `/art/${item._id}`}
+            // onClick={() => window.location.href = `/art/${item._id}`}
             className="relative w-full sm:w-[48%] md:w-[31%] lg:w-[23%] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-purple-600/50 transition-all duration-500 flex flex-col"
           >
             <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
@@ -164,7 +216,7 @@ export default function ReelsFeed() {
               </h2>
 
               {item.tags.length > 0 && (
-                <div className="flex flex-wrap gap-1 mt-1">
+                <div className="font-inter flex flex-wrap gap-1 mt-1">
                   {item.tags.map((tag: string, idx: number) => (
                     <span key={idx} className="text-xs bg-purple-600 px-2 py-1 rounded-full">
                       #{tag}
@@ -183,6 +235,15 @@ export default function ReelsFeed() {
                 <button className="flex items-center gap-1 hover:text-green-400 transition">
                   <FaEye className="w-4 h-4" /> <span>{item.view}</span>
                 </button>
+                {saveds.includes(item._id) ? (
+                <button title="UnSave" onClick={() => unsaveArt(item._id)} className="text-yellow-400">
+                  <FaBookmark className="w-4 h-4" />
+                </button>
+              ) : (
+                <button title="Save" onClick={() => saveArt(item._id)} className="hover:text-green-400">
+                  <BiBookmark className="w-4 h-4" />
+                </button>
+              )}
               </div>
             </div>
           </div>

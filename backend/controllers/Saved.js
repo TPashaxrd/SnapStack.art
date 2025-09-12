@@ -3,7 +3,7 @@ const Saveds = require("../models/Saveds");
 const SaveArt = async (req, res) => {
     try {
         const { artId } = req.body;
-        const userId = req.user._id;
+        const userId = req.session.userId;
 
         const exist = await Saveds.findOne({ user: userId, art: artId })
         if(exist) return res.status(400).json({ message: "Already saved!" })
@@ -17,7 +17,7 @@ const SaveArt = async (req, res) => {
 
 const getSavedArts = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.session.userId;
 
         const savedArts = await Saveds.find({ user: userId })
         .populate('art')
@@ -31,13 +31,17 @@ const getSavedArts = async (req, res) => {
 
 const unSaveArt = async (req, res) => {
     try {
-        const userId = req.user._id;
-        const { artId } = req.params;
-
-        await Saveds.findOneAndDelete({ user: userId, art: artId })
+      const userId = req.session.userId;
+      const { artId } = req.params;
+      console.log("userId:", userId, "artId:", artId);
+  
+      const deleted = await Saveds.findOneAndDelete({ user: userId, art: artId });
+      if (!deleted) return res.status(404).json({ message: "Not found" });
+  
+      res.status(200).json({ message: "Unsaved successfully" });
     } catch (error) {
-        res.status(500).json({ message: error.message })
+      res.status(500).json({ message: error.message });
     }
-}
-
+  };
+  
 module.exports = { SaveArt, getSavedArts, unSaveArt }
