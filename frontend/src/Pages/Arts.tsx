@@ -190,7 +190,7 @@ export default function Arts() {
                       className="w-10 h-10 rounded-full border border-purple-500"
                     />
                     <div>
-                      <p onClick={() => window.location.href = `/profile/${c?.user?.username}`} className="cursor-pointer hover:underline text-purple-300 font-semibold">{c?.user?.username}</p>
+                      <p onClick={() => window.location.href = `/profile/${c?.user?.username || "Deleted User"}`} className="cursor-pointer hover:underline text-purple-300 font-semibold">{c?.user?.username}</p>
                       <p className="text-gray-300">{c?.comment}</p>
                       <p className="text-gray-500 text-xs">{new Date(c?.date).toLocaleString()}</p>
                     </div>
