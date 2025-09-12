@@ -9,7 +9,6 @@ interface MeData {
 }
 
 export default function Header() {
-  const [error, setError] = useState("")
   const [userData, setUserData] = useState<MeData | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -19,7 +18,7 @@ export default function Header() {
             const res = await axios.get<{ user: MeData }>("http://localhost:5000/api/user/me", { withCredentials: true });
             setUserData(res.data.user)
         } catch (error: any) {
-            setError("Failed to fetch user data.")
+          console.info("No login")
         }
     }
     fetchMe()
@@ -35,7 +34,6 @@ export default function Header() {
         >
           SnapStack.art
         </div>
-        <span className="text-red-500 font-inter">{error}</span>
         {userData && (
           <span className="text-xl font-inter">{userData.username}</span>
         )}
