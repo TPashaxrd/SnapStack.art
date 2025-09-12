@@ -203,24 +203,24 @@ const Admin: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-900 text-white font-sans p-4 md:p-6 flex flex-col md:flex-row gap-4">
-        <aside className="w-full md:w-60 bg-gray-800 rounded-xl p-5 shadow-lg">
-          <h2 className="text-xl font-bold text-indigo-400 mb-4">Admin Panel</h2>
-          <ul className="space-y-2">
-            {["dashboard", "arts", "banneds", "users", "contacts" ].map(section => (
+      <div className="min-h-screen bg-[#0F0F0F] text-gray-100 font-inter p-4 md:p-6 flex flex-col md:flex-row gap-6">
+        <aside className="w-full md:w-64 bg-[#1A1A1A] rounded-2xl p-6 shadow-xl border border-gray-800/50">
+          <h2 className="text-2xl font-bold text-[#6B46C1] mb-6 tracking-tight">Admin Panel</h2>
+          <ul className="space-y-3">
+            {["dashboard", "arts", "banneds", "users", "contacts"].map(section => (
               <li
                 key={section}
-                className={`p-2 rounded-lg cursor-pointer transition-colors ${activeSection === section ? "bg-indigo-600 font-inter" : "hover:bg-indigo-500/30"}`}
+                className={`p-3 rounded-lg cursor-pointer transition-all duration-300 ${activeSection === section ? "bg-[#6B46C1] text-white font-medium" : "hover:bg-gray-800/50 text-gray-300 hover:text-[#6B46C1]"}`}
                 onClick={() => setActiveSection(section as "dashboard" | "users" | "banneds" | "contacts" | "arts")}
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
               </li>
             ))}
           </ul>
-          <ul className="space-y-2">
+          <ul className="space-y-3">
             <li
               onClick={() => { setIsAdmin(false); setAuthMessage(""); }}
-              className="mt-3 flex items-center justify-center gap-2 bg-red-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md cursor-pointer transition-all duration-300 hover:bg-red-700 hover:scale-105 active:scale-95 select-none"
+              className="mt-4 flex items-center justify-center gap-2 bg-red-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md cursor-pointer transition-all duration-300 hover:bg-red-700 hover:scale-105 active:scale-95 select-none"
             >
               EXIT
             </li>
@@ -229,15 +229,15 @@ const Admin: React.FC = () => {
 
         <main className="flex-1">
           {!isAdmin ? (
-            <div className="max-w-sm mx-auto bg-gray-800 rounded-xl p-6 shadow-lg space-y-4">
+            <div className="max-w-sm mx-auto bg-[#1A1A1A] rounded-2xl p-8 shadow-xl border border-gray-800/50 space-y-4">
               <input
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="Admin password"
-                className="w-full p-3 bg-gray-700 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full p-3 bg-[#2D2D2D] rounded-lg border border-gray-700 text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6B46C1] transition-all"
               />
-              <button onClick={checkPassword} className="w-full py-2 bg-indigo-500 rounded-lg hover:bg-indigo-600 font-medium">
+              <button onClick={checkPassword} className="w-full py-2 bg-[#6B46C1] rounded-lg hover:bg-[#7C3AED] font-medium text-white transition-all">
                 Verify
               </button>
               {authMessage && <p className={`text-sm ${isAdmin ? "text-green-400" : "text-red-400"}`}>{authMessage}</p>}
@@ -245,78 +245,77 @@ const Admin: React.FC = () => {
           ) : (
             <>
               {activeSection === "dashboard" && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   {cards.map(({ icon, label, value, color }) => (
-                    <div key={label} className={`bg-${color}-600 rounded-xl p-5 text-center shadow-lg hover:scale-105 transition-transform flex flex-col items-center gap-2`}>
+                    <div key={label} className={`bg-[#1A1A1A] rounded-2xl p-6 text-center shadow-xl border border-gray-800/50 hover:scale-105 transition-all flex flex-col items-center gap-3`}>
                       {icon}
-                      <h3 className="text-2xl font-bold">{value}</h3>
-                      <p className="text-sm">{label}</p>
+                      <h3 className="text-2xl font-bold text-white">{value}</h3>
+                      <p className="text-sm text-gray-400">{label}</p>
                     </div>
                   ))}
                 </div>
               )}
 
-            {activeSection === "contacts" && (
-              <div className="overflow-x-auto bg-gray-900 rounded-xl shadow-xl p-4">
-                <h2 className="text-2xl font-bold text-purple-400 mb-4">Contacts</h2>
-                <table className="min-w-full divide-y divide-gray-700 text-sm">
-                  <thead className="bg-gray-800">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Title</th>
-                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Message</th>
-                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Email</th>
-                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">IP Address</th>
-                      <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-winder">Controllers</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-700">
-                    {contacts.map((contact) => (
-                      <tr key={contact._id} className="hover:bg-gray-800 transition-colors duration-200">
-                        <td className="px-4 py-2">{contact.title}</td>
-                        <td className="px-4 py-2">{contact.message}</td>
-                        <td className="px-4 py-2">{contact.email}</td>
-                        <td className="px-4 py-2">{contact.IP_Address}</td>
-                        <td onClick={() => deleteContact(contact._id)} className="px-4 py-2"><BiTrash size={20} /></td>
+              {activeSection === "contacts" && (
+                <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl p-6 border border-gray-800/50">
+                  <h2 className="text-2xl font-bold text-[#6B46C1] mb-6 tracking-tight">Contacts</h2>
+                  <table className="min-w-full divide-y divide-gray-800 text-sm">
+                    <thead className="bg-[#2D2D2D]">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Title</th>
+                        <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Message</th>
+                        <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Email</th>
+                        <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">IP Address</th>
+                        <th className="px-4 py-3 text-left text-gray-300 uppercase tracking-wider">Controllers</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
+                    </thead>
+                    <tbody className="divide-y divide-gray-800">
+                      {contacts.map((contact) => (
+                        <tr key={contact._id} className="hover:bg-[#2D2D2D] transition-colors duration-200">
+                          <td className="px-4 py-2 text-gray-100">{contact.title}</td>
+                          <td className="px-4 py-2 text-gray-100">{contact.message}</td>
+                          <td className="px-4 py-2 text-gray-100">{contact.email}</td>
+                          <td className="px-4 py-2 text-gray-100">{contact.IP_Address}</td>
+                          <td onClick={() => deleteContact(contact._id)} className="px-4 py-2 text-red-400 hover:text-red-500 cursor-pointer"><BiTrash size={20} /></td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
-            {activeSection === "banneds" && (
-              <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg p-4">
-                <h2 className="text-2xl font-semibold text-indigo-300 mb-4">Banned Users</h2>
-                <table className="min-w-full divide-y divide-gray-700 text-sm">
-                  <thead>
-                    <tr>
-                      <th className="px-4 py-2 text-left">Username</th>
-                      <th className="px-4 py-2 text-left">Email</th>
-                      <th className="px-4 py-2 text-left">Reason</th>
-                      <th className="px-4 py-2 text-left">Date</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-700">
-                    {banneds?.map(banned => (
-                      <tr key={banned._id}>
-                        <td className="px-4 py-2">{banned.userUsername}</td>
-                        <td className="px-4 py-2">{banned.userEmail}</td>
-                        <td className="px-4 py-2">{banned.reason}</td>
-                        <td className="px-4 py-2">{new Date(banned.date).toLocaleString()}</td>
+              {activeSection === "banneds" && (
+                <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl p-6 border border-gray-800/50">
+                  <h2 className="text-2xl font-semibold text-[#6B46C1] mb-6 tracking-tight">Banned Users</h2>
+                  <table className="min-w-full divide-y divide-gray-800 text-sm">
+                    <thead>
+                      <tr>
+                        <th className="px-4 py-2 text-left text-gray-300">Username</th>
+                        <th className="px-4 py-2 text-left text-gray-300">Email</th>
+                        <th className="px-4 py-2 text-left text-gray-300">Reason</th>
+                        <th className="px-4 py-2 text-left text-gray-300">Date</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
+                    </thead>
+                    <tbody className="divide-y divide-gray-800">
+                      {banneds?.map(banned => (
+                        <tr key={banned._id} className="hover:bg-[#2D2D2D] transition-colors">
+                          <td className="px-4 py-2 text-gray-100">{banned.userUsername}</td>
+                          <td className="px-4 py-2 text-gray-100">{banned.userEmail}</td>
+                          <td className="px-4 py-2 text-gray-100">{banned.reason}</td>
+                          <td className="px-4 py-2 text-gray-100">{new Date(banned.date).toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
 
               {activeSection === "arts" && (
-                <div className="overflow-x-auto bg-gray-900 rounded-xl shadow-lg p-4">
-                  <h2 className="text-2xl font-semibold text-indigo-300 mb-4">Arts Management</h2>
-                  <table className="min-w-full table-auto border-collapse text-sm text-left text-white">
+                <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl p-6 border border-gray-800/50">
+                  <h2 className="text-2xl font-semibold text-[#6B46C1] mb-6 tracking-tight">Arts Management</h2>
+                  <table className="min-w-full table-auto border-collapse text-sm text-left text-gray-100">
                     <thead>
-                      <tr className="bg-gray-800">
+                      <tr className="bg-[#2D2D2D]">
                         <th className="px-4 py-2">#</th>
                         <th className="px-4 py-2">Title</th>
                         <th className="px-4 py-2">Image</th>
@@ -330,11 +329,11 @@ const Admin: React.FC = () => {
                     </thead>
                     <tbody>
                       {arts.map((art, index) => (
-                        <tr key={art._id} className="bg-gray-800 hover:bg-gray-700 transition-colors">
+                        <tr key={art._id} className="bg-[#1A1A1A] hover:bg-[#2D2D2D] transition-colors">
                           <td className="px-4 py-2">{index + 1}</td>
                           <td className="px-4 py-2 truncate max-w-xs">{art.title}</td>
                           <td className="px-4 py-2">
-                            <img src={`http://localhost:5000${art.imageUrl}`} alt={art.title} className="w-16 h-16 object-cover rounded" />
+                            <img src={`http://localhost:5000${art.imageUrl}`} alt={art.title} className="w-16 h-16 object-cover rounded-lg border border-gray-700" />
                           </td>
                           <td className="px-4 py-2 truncate max-w-xs">{art.tags.join(", ")}</td>
                           <td className="px-4 py-2 text-center">{art.likes}</td>
@@ -342,10 +341,10 @@ const Admin: React.FC = () => {
                           <td className="px-4 py-2 text-center">{art.view}</td>
                           <td className="px-4 py-2 truncate max-w-xs">{art.user.username}</td>
                           <td className="px-4 py-2 flex gap-2">
-                            <button title="Update Art" onClick={() => { setEditArt(art); setModalVisible(true); }} className="px-2 py-1 bg-yellow-500 hover:bg-yellow-600 rounded text-white">
+                            <button title="Update Art" onClick={() => { setEditArt(art); setModalVisible(true); }} className="px-2 py-1 bg-yellow-500 hover:bg-yellow-600 rounded-lg text-white transition-all">
                               <BiEdit size={16} />
                             </button>
-                            <button title="Delete Art" onClick={() => deleteArt(art._id)} className="px-2 py-1 bg-red-500 hover:bg-red-600 rounded text-white">
+                            <button title="Delete Art" onClick={() => deleteArt(art._id)} className="px-2 py-1 bg-red-500 hover:bg-red-600 rounded-lg text-white transition-all">
                               <BiTrash size={16} />
                             </button>
                           </td>
@@ -358,53 +357,53 @@ const Admin: React.FC = () => {
 
               {activeSection === "users" && (
                 <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-semibold text-indigo-300">Users</h2>
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-semibold text-[#6B46C1] tracking-tight">Users</h2>
                     <div className="relative text-gray-400">
-                      <BiSearch className="absolute left-2 top-1/2 -translate-y-1/2" />
+                      <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2" />
                       <input
                         type="text"
                         placeholder="Search..."
-                        className="pl-8 pr-3 py-1 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="pl-10 pr-3 py-2 rounded-lg bg-[#2D2D2D] text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1] transition-all"
                         value={searchQuery}
                         onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                       />
                     </div>
                   </div>
-                  <div className="overflow-x-auto bg-gray-800 rounded-xl shadow-lg">
-                    <table className="min-w-full divide-y divide-gray-700 text-sm">
+                  <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl border border-gray-800/50">
+                    <table className="min-w-full divide-y divide-gray-800 text-sm">
                       <thead>
                         <tr>
-                          <th className="px-4 py-2 text-left">Avatar</th>
-                          <th className="px-4 py-2 text-left">Username</th>
-                          <th className="px-4 py-2 text-left">Email</th>
-                          <th className="px-4 py-2 text-left">Bio</th>
-                          <th className="px-4 py-2 text-left">Actions</th>
+                          <th className="px-4 py-2 text-left text-gray-300">Avatar</th>
+                          <th className="px-4 py-2 text-left text-gray-300">Username</th>
+                          <th className="px-4 py-2 text-left text-gray-300">Email</th>
+                          <th className="px-4 py-2 text-left text-gray-300">Bio</th>
+                          <th className="px-4 py-2 text-left text-gray-300">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-700">
+                      <tbody className="divide-y divide-gray-800">
                         {filteredUsers.map(user => (
-                          <tr key={user._id}>
+                          <tr key={user._id} className="hover:bg-[#2D2D2D] transition-colors">
                             <td className="px-4 py-2">
-                              <img src={`http://localhost:5000${user.avatarUrl}`} alt={user.username} className="w-10 h-10 rounded-full border-2 border-indigo-500" />
+                              <img src={`http://localhost:5000${user.avatarUrl}`} alt={user.username} className="w-10 h-10 rounded-full border-2 border-[#6B46C1]" />
                             </td>
-                            <td className="px-4 py-2">{user.username}</td>
-                            <td className="px-4 py-2">{user.email}</td>
-                            <td className="px-4 py-2 truncate max-w-xs">{user.bio}</td>
+                            <td className="px-4 py-2 text-gray-100">{user.username}</td>
+                            <td className="px-4 py-2 text-gray-100">{user.email}</td>
+                            <td className="px-4 py-2 truncate max-w-xs text-gray-100">{user.bio}</td>
                             <td className="px-4 py-2 flex gap-2">
-                              <button onClick={() => { setEditUser(user); setModalVisible(true); }} title="Edit User" className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 text-white">
+                              <button onClick={() => { setEditUser(user); setModalVisible(true); }} title="Edit User" className="p-2 bg-yellow-500 rounded-lg hover:bg-yellow-600 text-white transition-all">
                                 <BiEdit />
                               </button>
-                              <button onClick={() => deleteUser(user._id, user.username, user.email)} title="Delete User" className="p-2 bg-red-500 rounded-lg hover:bg-red-600 text-white">
+                              <button onClick={() => deleteUser(user._id, user.username, user.email)} title="Delete User" className="p-2 bg-red-500 rounded-lg hover:bg-red-600 text-white transition-all">
                                 <BsBan />
                               </button>
                               <button
                                 title="Copy to Clipboard"
                                 onClick={() => {
                                   navigator.clipboard.writeText(`User ID: ${user._id}`);
-                                  toast.success(`Successfully Copied!`, { style: { fontFamily: 'Inter, serif', backgroundColor: 'black', color: 'white' }, icon: <FcOk /> });
+                                  toast.success(`Successfully Copied!`, { style: { fontFamily: 'Inter, serif', backgroundColor: '#1A1A1A', color: 'white' }, icon: <FcOk /> });
                                 }}
-                                className="p-2 bg-gray-500 rounded-lg hover:bg-red-600 text-white"
+                                className="p-2 bg-gray-500 rounded-lg hover:bg-gray-600 text-white transition-all"
                               >
                                 <BiCopy />
                               </button>
@@ -420,20 +419,20 @@ const Admin: React.FC = () => {
               <Modal visible={modalVisible} onClose={() => setModalVisible(false)}>
                 {editUser && (
                   <>
-                    <h2 className="text-lg font-bold mb-3">Edit User</h2>
-                    <input type="text" value={editUser.username} onChange={e => setEditUser({ ...editUser!, username: e.target.value })} placeholder="Username" className="w-full p-2 mb-3 bg-gray-700 rounded-lg text-white" />
-                    <input type="email" value={editUser.email} onChange={e => setEditUser({ ...editUser!, email: e.target.value })} placeholder="Email" className="w-full p-2 mb-3 bg-gray-700 rounded-lg text-white" />
-                    <textarea value={editUser.bio || ""} onChange={e => setEditUser({ ...editUser!, bio: e.target.value })} placeholder="Bio" className="w-full p-2 mb-3 bg-gray-700 rounded-lg text-white" />
-                    <button onClick={saveEditUser} className="w-full py-2 bg-indigo-500 rounded-lg hover:bg-indigo-600 font-medium">Save</button>
+                    <h2 className="text-lg font-bold mb-4 text-[#6B46C1] tracking-tight">Edit User</h2>
+                    <input type="text" value={editUser.username} onChange={e => setEditUser({ ...editUser!, username: e.target.value })} placeholder="Username" className="w-full p-2 mb-4 bg-[#2D2D2D] rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1]" />
+                    <input type="email" value={editUser.email} onChange={e => setEditUser({ ...editUser!, email: e.target.value })} placeholder="Email" className="w-full p-2 mb-4 bg-[#2D2D2D] rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1]" />
+                    <textarea value={editUser.bio || ""} onChange={e => setEditUser({ ...editUser!, bio: e.target.value })} placeholder="Bio" className="w-full p-2 mb-4 bg-[#2D2D2D] rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1]" />
+                    <button onClick={saveEditUser} className="w-full py-2 bg-[#6B46C1] rounded-lg hover:bg-[#7C3AED] font-medium text-white transition-all">Save</button>
                   </>
                 )}
 
                 {editArt && (
                   <>
-                    <h2 className="text-lg font-bold mb-3">Edit Art</h2>
-                    <input type="text" value={editArt.title} onChange={e => setEditArt({ ...editArt!, title: e.target.value })} placeholder="Title" className="w-full p-2 mb-3 bg-gray-700 rounded-lg text-white" />
-                    <input type="text" value={editArt.tags.join(", ")} onChange={e => setEditArt({ ...editArt!, tags: e.target.value.split(",").map(t => t.trim()) })} placeholder="Tags (comma separated)" className="w-full p-2 mb-3 bg-gray-700 rounded-lg text-white" />
-                    <button onClick={saveEditArt} className="w-full py-2 bg-indigo-500 rounded-lg hover:bg-indigo-600 font-medium">Save</button>
+                    <h2 className="text-lg font-bold mb-4 text-[#6B46C1] tracking-tight">Edit Art</h2>
+                    <input type="text" value={editArt.title} onChange={e => setEditArt({ ...editArt!, title: e.target.value })} placeholder="Title" className="w-full p-2 mb-4 bg-[#2D2D2D] rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1]" />
+                    <input type="text" value={editArt.tags.join(", ")} onChange={e => setEditArt({ ...editArt!, tags: e.target.value.split(",").map(t => t.trim()) })} placeholder="Tags (comma separated)" className="w-full p-2 mb-4 bg-[#2D2D2D] rounded-lg text-gray-100 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-[#6B46C1]" />
+                    <button onClick={saveEditArt} className="w-full py-2 bg-[#6B46C1] rounded-lg hover:bg-[#7C3AED] font-medium text-white transition-all">Save</button>
                   </>
                 )}
               </Modal>
@@ -444,7 +443,7 @@ const Admin: React.FC = () => {
       <Footer />
       <Toaster position="top-right" />
     </>
-  );
+);
 };
 
 export default Admin;
