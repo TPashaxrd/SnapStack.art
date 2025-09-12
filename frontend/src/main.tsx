@@ -10,6 +10,7 @@ import Arts from './Pages/Arts.tsx'
 import NoPage from './Pages/NoPage.tsx'
 import Settings from './Pages/Settings.tsx'
 import Admin from './Pages/Admin.tsx'
+import Search from './Pages/Search.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')!).render(
     <Route path="/art/:id" element={<Arts/>}/>
     <Route path="/home" element={<Navigate to="/" />} />
     <Route path="/settings" element={<Settings/>}/>
+    <Route path="/search" element={<Search/>}/>
     <Route path="/admin" element={<Admin/>}/>
     <Route path="*" element={<NoPage/>}/>
    </Routes>
