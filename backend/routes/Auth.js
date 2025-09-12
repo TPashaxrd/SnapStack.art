@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.post("/register", CreateUser)
 router.post("/login", Login)
-router.post("/logout", Logout)
+router.get("/logout", Logout)
 router.get("/me", me)
 router.put("/me", me)
 router.get("/user/:username", getArtsByUser)

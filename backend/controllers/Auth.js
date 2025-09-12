@@ -200,7 +200,9 @@ const getArtsByUser = async (req, res) => {
                 email: user.email,
                 bio: user.bio || "",
                 avatarUrl: user.avatarUrl || null,
-                totalArts: arts.length
+                totalArts: arts.length,
+                socials: user.socials || { instagram: "", twitter: "", tiktok: "", youtube: "" },
+                publicEmail: user.publicEmail
             },
             arts
         });

@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    socials: {
+        instagram: { type: String },
+        twitter: { type: String },
+        tiktok: { type: String },
+        youtube: { type: String }
+    },
+    publicEmail: {
+        type: String
+    },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     date: {

@@ -1,7 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 const path = require("path")
-const { isAuth, ChangeUsername, changePassword, changeAvatar, changeBio } = require("../controllers/Settings")
+const { isAuth, ChangeUsername, changePassword, changeAvatar, changeBio, changeSocials, changePublicMail } = require("../controllers/Settings")
 
 const router = express.Router()
 
@@ -35,6 +35,8 @@ const storage = multer.diskStorage({
 
 router.post("/username", isAuth, ChangeUsername)
 router.post("/password", isAuth, changePassword)
+router.post("/change-socials", isAuth, changeSocials)
+router.post("/change-public-email", isAuth, changePublicMail)
 router.post("/update-avatar", isAuth, upload.single("avatar"), changeAvatar)
 router.post("/bio", isAuth, changeBio)
 

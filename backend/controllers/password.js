@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const User = require("../models/User");
 const dotenv = require("dotenv")
-const crypto = require("crypto"); // unutma, frontendde değil
+const crypto = require("crypto"); 
 
 dotenv.config()
 

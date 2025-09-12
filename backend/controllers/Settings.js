@@ -108,4 +108,65 @@ const changeAvatar = async (req, res) => {
     res.status(500).json({ message: "Server error" + err})
   }
 }
-module.exports = { isAuth, ChangeUsername, changePassword, changeAvatar, changeBio }
+
+const changeSocials = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if (!userId) return res.status(401).json({ message: "Not logged in" });
+
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const { instagram, twitter, tiktok, youtube } = req.body;
+
+    const usernameRegex = /^[a-zA-Z0-9._]{1,30}$/; 
+
+    if (instagram && !usernameRegex.test(instagram)) {
+      return res.status(400).json({ message: "Invalid Instagram username. example: snapstack" });
+    }
+    if (twitter && !usernameRegex.test(twitter)) {
+      return res.status(400).json({ message: "Invalid Twitter username. example: snapstack" });
+    }
+    if (tiktok && !usernameRegex.test(tiktok)) {
+      return res.status(400).json({ message: "Invalid TikTok username. example: snpastack" });
+    }
+    if (youtube && !usernameRegex.test(youtube)) {
+      return res.status(400).json({ message: "Invalid YouTube username. example: snapstack" });
+    }
+
+
+    if (instagram !== undefined) user.socials.instagram = instagram;
+    if (twitter !== undefined) user.socials.twitter = twitter;
+    if (tiktok !== undefined) user.socials.tiktok = tiktok;
+    if (youtube !== undefined) user.socials.youtube = youtube;
+
+    await user.save();
+
+    res.json({ message: "Socials updated successfully", socials: user.socials });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+const changePublicMail = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    if(!userId) return res.status(401).json({ message: "Not loggeed in" })
+
+    const user = await User.findById(userId)
+    if(!user) return res.status(404).json({ message: "User not found" })
+
+    const { publicEmail } = req.body;
+    
+    user.publicEmail = publicEmail
+
+    await user.save()
+
+    res.json({ message: "Public email updated successfully!", publicEmail: user.publicEmail })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}
+
+module.exports = { isAuth, ChangeUsername, changePassword, changeAvatar, changeBio, changeSocials, changePublicMail }

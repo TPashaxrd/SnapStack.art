@@ -14,6 +14,69 @@ export default function Settings() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
+  const [instagram, setInstagram] = useState("")
+  const [twitter, setTwitter] = useState("")
+  const [tiktok, setTiktok] = useState("")
+  const [youtube, setYoutube] = useState("")
+  const [socialAlert, setSocialAlert] = useState("")
+  const [publicEmail, setPublicEmail] = useState("")
+  const [publicEmailAlert, setPublicEmailAlert] = useState("")
+
+  async function updateSocials() {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/settings/change-socials",
+        { instagram, twitter, tiktok, youtube},
+        { withCredentials: true}
+      )
+      setSuccessMessage("Socials updated successfully")
+      setSocialAlert("")
+      setUserData({ ...userData, socials: res.data.socials})
+    } catch (error: any) {
+      if(error.response && error.response.status === 400) {
+        setSuccessMessage("")
+        setSocialAlert(error.response.data.message)
+      } else {
+        setSocialAlert("Something went wrong.")
+      }
+    }
+  }
+
+  function Logout() {
+    try {
+      axios.get("http://localhost:5000/api/user/logout")
+      setTimeout(() => window.location.href = "/", 200)
+    } catch (error) {
+      
+    }
+  }
+  async function updatePublicEmail() {
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/settings/change-public-email",
+        { publicEmail },
+        { withCredentials: true }
+      )
+      setPublicEmailAlert("Public email added successfully")
+      setUserData({ ...userData, publicEmail: res.data.publicEmail})
+
+    } catch (error: any) {
+      setPublicEmailAlert(error.message)
+    }
+  }
+
+  useEffect(() => {
+    if (userData) {
+      setUsername(userData.username);
+      setBio(userData.bio || "");
+      setInstagram(userData.socials?.instagram || "");
+      setTwitter(userData.socials?.twitter || "");
+      setTiktok(userData.socials?.tiktok || "");
+      setYoutube(userData.socials?.youtube || "");
+      setPublicEmail(userData?.publicEmail || "")
+    }
+  }, [userData]);
+  
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) setFile(e.target.files[0]);
@@ -46,6 +109,7 @@ export default function Settings() {
         setUserData(res.data.user);
       } catch (error: any) {
         console.error(`Error: ${error}`);
+        setTimeout(() => window.location.href = "/", 200)
       } finally {
         setLoading(false);
       }
@@ -53,12 +117,7 @@ export default function Settings() {
     fetchMe();
   }, []);
 
-  useEffect(() => {
-    if (userData) {
-      setUsername(userData.username);
-      setBio(userData.bio || "");
-    }
-  }, [userData]);
+
 
   const updateUsername = async () => {
     try {
@@ -190,7 +249,64 @@ export default function Settings() {
                 </button>
               </div>
 
+              
               <div className="border-b border-gray-700"></div>
+
+              <div className="flex flex-col gap-3">
+              <span className={`text-center ${publicEmailAlert.includes("successfully") ? "text-green-500" : "text-red-500"}`}>
+                {publicEmailAlert}
+              </span>
+                <h2 className="text-gray-300 font-bold">Public Email</h2>
+                
+                <input
+                  placeholder="example: snapstack@snapstack.art"
+                  value={publicEmail}
+                  onChange={(e) => setPublicEmail(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                />
+                <button onClick={updatePublicEmail} className="mt-2 w-full py-2 bg-purple-500 rounded-xl hover:bg-purple-600 font-semibold transition">Update Public Email</button>
+              </div>
+
+              <div className="border-b border-gray-700"></div>
+
+              <div className="flex flex-col gap-3">
+                <span className="text-red-500 text-center">{socialAlert}</span>
+                <h2 className="text-gray-300 font-bold">Social Links</h2>
+
+                <input
+                  placeholder="@Instagram"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                />
+                <input
+                  placeholder="@twitter"
+                  value={twitter}
+                  onChange={(e) => setTwitter(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                />
+                <input
+                  placeholder="@tiktok"
+                  value={tiktok}
+                  onChange={(e) => setTiktok(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                />
+                <input
+                  placeholder="@youtube"
+                  value={youtube}
+                  onChange={(e) => setYoutube(e.target.value)}
+                  className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+                />
+                <button
+                  onClick={updateSocials}
+                  className="mt-2 w-full py-2 bg-purple-500 rounded-xl hover:bg-purple-600 font-semibold transition"
+                >
+                  Update Socials
+                </button>
+              </div>
+
+              <div className="border-b border-gray-700"></div>
+
 
               <div className="flex flex-col gap-3">
                 <label className="text-gray-300 font-medium flex gap-1">
@@ -219,6 +335,10 @@ export default function Settings() {
                 >
                   Update Password
                 </button>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <button onClick={Logout}>Logout</button>
               </div>
 
               {successMessage && (
