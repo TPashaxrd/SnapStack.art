@@ -34,7 +34,8 @@ export default function ReelsFeed() {
     setNotLoggedIn(!notLoggedin)
   }
 
-  // console.log(currentUser)
+  console.log(currentUser)
+  console.clear()
 
   const fetchArts = async () => {
     try {
@@ -135,12 +136,12 @@ export default function ReelsFeed() {
         </span>
       </div>
 
-      <div className="grid mt-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="flex flex-wrap mt-6 gap-6 justify-center">
         {arts.map((item) => (
           <div
             key={item._id}
             onClick={() => window.location.href = `/art/${item._id}`}
-            className="group relative rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-purple-600/50 transition-all duration-500"
+            className="relative w-full sm:w-[48%] md:w-[31%] lg:w-[23%] rounded-3xl overflow-hidden cursor-pointer shadow-lg hover:shadow-purple-600/50 transition-all duration-500 flex flex-col"
           >
             <div className="absolute top-2 left-2 flex items-center gap-2 z-10">
               <img
@@ -157,7 +158,7 @@ export default function ReelsFeed() {
               className="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500"
             />
 
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex flex-col justify-end p-4">
+            <div className="absolute inset-0 bg-black/0 hover:bg-black/40 transition-all duration-300 flex flex-col justify-end p-4">
               <h2 className="text-lg font-bold text-purple-400 group-hover:text-purple-300 truncate">
                 {item?.title}
               </h2>
@@ -172,14 +173,14 @@ export default function ReelsFeed() {
                 </div>
               )}
 
-              <div className="flex gap-6 mt-3">
-                <button className="flex items-center gap-1 text-gray-300 hover:text-red-500 transition">
+              <div className="flex gap-4 mt-3 text-gray-300">
+                <button className="flex items-center gap-1 hover:text-red-500 transition">
                   <FaHeart className="w-4 h-4" /> <span>{item.likes || 0}</span>
                 </button>
-                <button className="flex items-center gap-1 text-gray-300 hover:text-blue-400 transition">
+                <button className="flex items-center gap-1 hover:text-blue-400 transition">
                   <FaComment className="w-4 h-4" /> <span>{item.comments?.length || 0}</span>
                 </button>
-                <button className="flex items-center gap-1 text-gray-300 hover:text-green-400 transition">
+                <button className="flex items-center gap-1 hover:text-green-400 transition">
                   <FaEye className="w-4 h-4" /> <span>{item.view}</span>
                 </button>
               </div>

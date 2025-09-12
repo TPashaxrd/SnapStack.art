@@ -12,6 +12,7 @@ const SettingsRoutes = require("./routes/Settings");
 const DashboardRoutes = require("./routes/dashboard");
 const { limiter } = require("./middlewares/rateLimit");
 const SearchRoutes = require("./routes/Search");
+const PasswordRoutes = require("./routes/Password");
 
 db();
 
@@ -46,6 +47,7 @@ app.use("/api/subs", limiter, SubsRoutes)
 app.use("/api/settings", limiter, SettingsRoutes)
 app.use("/api/dashboard", limiter, DashboardRoutes)
 app.use("/api/search", SearchRoutes)
+app.use("/api/password", PasswordRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 5000;
