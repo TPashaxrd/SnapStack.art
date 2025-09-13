@@ -100,6 +100,12 @@ export default function Arts() {
       <div className="absolute -top-20 -left-20 w-60 h-60 bg-[#6B46C1] rounded-full opacity-20 rotate-12 animate-pulse-slow blur-2xl"></div>
       <div className="absolute -bottom-28 -right-24 w-80 h-80 bg-[#7C3AED] rounded-full opacity-15 rotate-45 animate-pulse-slow blur-2xl"></div>
       <Header />
+      <div className="bg-[#0F0F0F] flex items-center justify-center py-6">
+      <button onClick={() => window.history.back() } className="relative px-8 py-3 rounded-xl font-semibold text-red-400 border border-red-500/40 shadow-lg shadow-red-500/20 hover:shadow-red-500/40 hover:text-white hover:bg-red-500/20 transition-all duration-300 group">
+        <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 opacity-0 group-hover:opacity-100 blur-sm transition duration-300"></span>
+        <span className="relative z-10 tracking-wider">⟵ BACK</span>
+      </button>
+    </div>
       <div className="flex justify-center items-center min-h-screen bg-[#0F0F0F] font-inter px-4">
         <div className="mb-12 mt-11 w-full max-w-3xl bg-[#1A1A1A] backdrop-blur-lg rounded-2xl shadow-xl border border-gray-800/50 overflow-hidden">
           <div className="p-6 border-b border-gray-800/50">

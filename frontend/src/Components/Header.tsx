@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BiHome, BiSearch, BiUser } from "react-icons/bi";
+import { BiHome, BiPhone, BiSearch, BiUpload, BiUser } from "react-icons/bi";
 import { FaSignOutAlt } from "react-icons/fa";
 
 interface MeData {
@@ -129,8 +129,16 @@ export default function Header() {
                   <BiUser size={24} />
                   <span className="text-sm font-semibold">Settings</span>
                 </a>
+                <a
+                  href="/create-arts"
+                  className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+                >
+                  <BiUpload size={24} />
+                  <span className="text-sm font-semibold">Create</span>
+                </a>
+                
                 <button
-                  onClick={() => (window.location.href = "/logout")} // Assuming a logout route
+                  onClick={() => (window.location.href = "/logout")}
                   className="p-2 rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-red-500/50 transition-all duration-300 flex items-center gap-2 text-white"
                 >
                   <FaSignOutAlt size={24} />
@@ -152,6 +160,13 @@ export default function Header() {
             >
               <BiSearch size={24} />
               <span className="text-sm font-semibold">Search</span>
+            </a>
+            <a
+              href="/contact"
+              className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
+            >
+              <BiPhone size={24} />
+              <span className="text-sm font-semibold">Contact & Help</span>
             </a>
           </div>
         </nav>
