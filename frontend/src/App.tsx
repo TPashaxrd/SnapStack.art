@@ -105,15 +105,9 @@ const unsaveArt = async (id: string) => {
   }
 };
 
-
-
-  
   useEffect(() => {
     checkData()
   }, [])
-
-
-  
 
   useEffect(() => {
     fetchArts();
@@ -189,7 +183,7 @@ const unsaveArt = async (id: string) => {
             <div className="bg-[#1A1A1A] rounded-2xl p-6 w-full max-w-3xl relative shadow-xl border border-gray-800/50 flex flex-col gap-4">
               <button
                 className="absolute top-4 right-4 text-white"
-                onClick={() => setShowSaveds(false)}
+                onClick={() => setShowSaveds(false)} title="Show Saveds"
               >
                 <GrClose size={20} />
               </button>

@@ -19,7 +19,7 @@ const SaveRoutes = require("./routes/Save");
 db();
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://8d5bc1804e77.ngrok-free.app",
     credentials: true
 }));
 
