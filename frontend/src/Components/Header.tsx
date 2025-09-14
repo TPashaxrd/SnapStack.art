@@ -130,7 +130,7 @@ export default function Header() {
                   <span className="text-sm font-semibold">Settings</span>
                 </a>
                 <a
-                  href="/create-arts"
+                  href="/create"
                   className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2 text-gray-100"
                 >
                   <BiUpload size={24} />

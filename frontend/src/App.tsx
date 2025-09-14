@@ -16,6 +16,7 @@ export default function App() {
   const [notLoggedin, setNotLoggedIn] = useState(false)
   const [_, setCurrentUser] = useState<any>(null)
   const [saveds, setSaveds] = useState<string[]>([])
+  const [showSaveds, setShowSaveds] = useState(false)
 
   useEffect(() => {
     async function fetchUser() {
@@ -171,18 +172,51 @@ const unsaveArt = async (id: string) => {
         <main className="flex-1 p-6 md:p-10">
           <div className="flex flex-wrap gap-4 justify-center mb-8">
             <button
-              onClick={() => (window.location.href = "/create-arts")}
+              onClick={() => (window.location.href = "/create")}
               className="flex items-center gap-3 px-6 py-3 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] shadow-lg hover:shadow-[#6B46C1]/50 transition-all duration-300"
             >
               <FaPaintBrush className="w-5 h-5 animate-bounce text-white" />
               <span className="text-white font-semibold">Share Your Art</span>
             </button>
     
-            <button className="px-5 py-3 rounded-lg bg-[#1A1A1A] border border-gray-800/50 text-gray-100 font-semibold shadow hover:bg-[#2D2D2D] transition-all duration-300">
+            <button onClick={() => setShowSaveds(prev => !prev)} className="px-5 py-3 rounded-lg bg-[#1A1A1A] border border-gray-800/50 text-gray-100 font-semibold shadow hover:bg-[#2D2D2D] transition-all duration-300">
               Saveds
             </button>
           </div>
     
+          {showSaveds && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-[#1A1A1A] rounded-2xl p-6 w-full max-w-3xl relative shadow-xl border border-gray-800/50 flex flex-col gap-4">
+              <button
+                className="absolute top-4 right-4 text-white"
+                onClick={() => setShowSaveds(false)}
+              >
+                <GrClose size={20} />
+              </button>
+
+              <h2 className="text-2xl font-bold text-[#6B46C1] mb-4">Saved Arts</h2>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {arts
+                  .filter(art => saveds.includes(art._id))
+                  .map(art => (
+                    <div
+                      key={art._id}
+                      onClick={() => (window.location.href = `/art/${art._id}`)}
+                      className="relative bg-[#1A1A1A] rounded-2xl overflow-hidden shadow-xl border border-gray-800/50 hover:shadow-[#6B46C1]/50 transition-all duration-500 cursor-pointer"
+                    >
+                      <img
+                        src={`http://localhost:5000${art.imageUrl}`}
+                        alt={art.title}
+                        className="w-full h-48 object-cover"
+                      />
+                      <div className="p-2 text-gray-100 font-semibold truncate">{art.title}</div>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {arts.map(item => (
               <div

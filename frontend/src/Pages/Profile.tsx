@@ -15,6 +15,7 @@ import { BsEye } from "react-icons/bs";
 import { BiPlus } from "react-icons/bi";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import BadgeList from "../Components/BadgeList";
 
 interface Art {
   _id: string;
@@ -55,7 +56,6 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAvatar, setShowAvatar] = useState(false);
-  const [badge, setBadge] = useState<null>(null)
 
   const toggleAvatar = () => setShowAvatar(!showAvatar);
 
@@ -77,12 +77,7 @@ export default function Profile() {
     fetchProfile();
   }, [username]);
 
-  if (loading)
-    return (
-      <p className="text-white text-2xl font-bold min-h-screen flex items-center justify-center animate-pulse">
-        Loading...
-      </p>
-    );
+  if (loading) return <div className="min-h-screen items-center justify-center flex text-blue-500"><div className="lds-facebook"><div></div><div></div><div></div></div></div>;
 
   if (error)
     return (
@@ -122,8 +117,10 @@ export default function Profile() {
                 <FaStar size={17} /> New User
             </span>
           )}
+                    <BadgeList badges={user.badges} />
+
         </div>
-    
+
             <div className="flex-1 flex flex-col gap-3 text-center md:text-left">
             <h1 className="text-3xl flex gap-2 font-bold text-[#6B46C1] tracking-tight font-inter">{user.username}</h1>
 
@@ -135,7 +132,7 @@ export default function Profile() {
                     href={`https://instagram.com/${user.socials.instagram}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] text-white font-semibold hover:scale-105 transition-all duration-300"
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#E1306C] hover:bg-[#7C3AED] hover:text-white/70 duration-300 text-white font-semibold hover:scale-105 transition-all duration-300"
                   >
                     <FaInstagram /> {user.socials.instagram}
                   </a>
@@ -145,7 +142,7 @@ export default function Profile() {
                     href={`https://twitter.com/${user.socials.twitter}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] text-white font-semibold hover:scale-105 transition-all duration-300"
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white/70 duration-300 text-white font-semibold hover:scale-105 transition-all duration-300"
                   >
                     <FaTwitter /> {user.socials.twitter}
                   </a>
@@ -155,7 +152,7 @@ export default function Profile() {
                     href={`https://tiktok.com/@${user.socials.tiktok}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] text-white font-semibold hover:scale-105 transition-all duration-300"
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#040404] hover:bg-[#7C3AED] hover:text-white/70 duration-300 text-white font-semibold hover:scale-105 transition-all duration-300"
                   >
                     <FaTiktok /> {user.socials.tiktok || "—"}
                   </a>
@@ -165,16 +162,17 @@ export default function Profile() {
                     href={`https://youtube.com/@${user.socials.youtube}`}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#6B46C1] hover:bg-[#7C3AED] text-white font-semibold hover:scale-105 transition-all duration-300"
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#FF0000] hover:bg-[#7C3AED] hover:text-white/70 duration-300 text-white font-semibold hover:scale-105 transition-all duration-300"
                   >
                     <FaYoutube /> {user.socials.youtube || "—"}
                   </a>
                 )}
               </div>
               <div className="flex gap-6 mt-3 justify-center md:justify-start flex-wrap text-gray-400">
-                <div className="flex items-center gap-1 hover:text-[#6B46C1] transition-all duration-300">
-                  <BiPlus size={18} /> Total Arts: {user.totalArts}
-                </div>
+              <div className="flex items-center gap-2 bg-[#2D2D2D] px-3 py-1 rounded-xl duration-300 text-sm md:text-base font-medium text-gray-200 hover:bg-[#6B46C1]/70 hover:text-white transition-all duration-300 shadow-md">
+                <BiPlus size={20} />
+                <span>Total Arts: <strong className="text-white">{user.totalArts}</strong></span>
+              </div>
                 <div className="flex cursor-pointer items-center gap-1 hover:text-[#6B46C1] transition-all duration-300">
                   {user.publicEmail ? (
                     <div

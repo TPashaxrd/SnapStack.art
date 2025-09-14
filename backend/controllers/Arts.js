@@ -1,4 +1,49 @@
 const Arts = require("../models/Arts");
+const Users = require("../models/User");
+
+const badgeLevels = [
+  { threshold: 2, name: "Bronze" },
+  { threshold: 4, name: "Bronze" },
+  { threshold: 6, name: "Silver" },
+  { threshold: 8, name: "Silver" },
+  { threshold: 10, name: "Gold" },
+  { threshold: 12, name: "Gold" },
+  { threshold: 14, name: "Platinum" },
+  { threshold: 16, name: "Platinum" },
+  { threshold: 18, name: "Diamond" },
+  { threshold: 20, name: "Diamond" },
+  { threshold: 22, name: "Legendary" },
+  { threshold: 24, name: "Legendary" },
+];
+
+async function checkAndAwardBadge(userId) {
+  try {
+    const artCount = await Arts.countDocuments({ user: userId });
+    if (artCount > 0 && artCount % 2 === 0) {
+      const badgeIndex = (artCount / 2) - 1;
+      const level = badgeLevels[badgeIndex] || { name: "Legendary" };
+      const badgeName = `${level.name} #${badgeIndex + 1}`;
+
+      const user = await Users.findById(userId);
+      if (!user) return;
+
+      user.badges = user.badges.filter(b => !b.name.startsWith(level.name));
+
+      user.badges.push({
+        name: badgeName,
+        awardedAt: new Date()
+      });
+
+      await user.save();
+      console.log(`Kullanıcıya otomatik olarak ${badgeName} verildi.`);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
 
 const CreateArt = async (req, res) => {
   try {
@@ -25,6 +70,9 @@ const CreateArt = async (req, res) => {
     });
 
     await newArt.save();
+
+    await checkAndAwardBadge(req.session.userId)
+
     res.status(201).json(newArt);
   } catch (error) {
     console.error("CreateArt error:", error);
