@@ -9,6 +9,7 @@ import {
   FaTwitter,
   FaTiktok,
   FaYoutube,
+  FaStar,
 } from "react-icons/fa";
 import { BsEye } from "react-icons/bs";
 import { BiPlus } from "react-icons/bi";
@@ -25,12 +26,19 @@ interface Art {
   comments: any[];
 }
 
+interface Badge {
+  name: string;
+  awardedAt: string;
+  expiresAt?: string;
+}
+
 interface UserProfile {
   username: string;
   email: string;
   bio?: string;
   totalArts: string;
   avatarUrl?: string;
+  badges: Badge[];
   socials?: {
     instagram?: string;
     twitter?: string;
@@ -47,6 +55,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAvatar, setShowAvatar] = useState(false);
+  const [badge, setBadge] = useState<null>(null)
 
   const toggleAvatar = () => setShowAvatar(!showAvatar);
 
@@ -96,19 +105,28 @@ export default function Profile() {
         <Header />
         <div className="bg-[#0F0F0F] min-h-screen text-gray-100 font-inter p-4 md:p-8 relative">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-8 bg-[#1A1A1A] backdrop-blur-lg p-6 rounded-2xl shadow-xl border border-gray-800/50 transition-all hover:shadow-[#6B46C1]/50 relative">
-            <img
-              src={
-                user.avatarUrl
-                  ? `http://localhost:5000${user.avatarUrl}`
-                  : "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"
-              }
-              alt={user.username}
-              onClick={toggleAvatar}
-              className="w-32 h-32 rounded-full object-cover border-4 border-[#6B46C1] cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg"
-            />
+          <div className="flex flex-col items-center gap-4 font-inter">
+          <img
+            src={
+              user.avatarUrl
+                ? `http://localhost:5000${user.avatarUrl}`
+                : "https://static.vecteezy.com/system/resources/thumbnails/019/879/186/small_2x/user-icon-on-transparent-background-free-png.png"
+            }
+            alt={user.username}
+            onClick={toggleAvatar}
+            className="w-32 h-32 rounded-full object-cover border-4 border-[#6B46C1] cursor-pointer hover:scale-110 transition-transform duration-300 shadow-lg hover:shadow-[#6B46C1]/50 bg-[#1A1A1A]"
+          />
+
+          {user.badges?.some((b) => b.name === "New User") && (
+            <span className="flex gap-1 px-3 py-1 rounded-full select-none text-sm font-semibold bg-[#2D2D2D] text-yellow-500 border border-gray-800/50 hover:bg-[#7C3AED] hover:text-white transition-all duration-300 shadow-2xl">
+                <FaStar size={17} /> New User
+            </span>
+          )}
+        </div>
     
             <div className="flex-1 flex flex-col gap-3 text-center md:text-left">
-              <h1 className="text-3xl font-bold text-[#6B46C1] tracking-tight">{user.username}</h1>
+            <h1 className="text-3xl flex gap-2 font-bold text-[#6B46C1] tracking-tight font-inter">{user.username}</h1>
+
               {user.bio && <p className="text-gray-300 italic">{user.bio}</p>}
     
               <div className="flex gap-4 mt-2 justify-center md:justify-start flex-wrap">
@@ -153,7 +171,6 @@ export default function Profile() {
                   </a>
                 )}
               </div>
-    
               <div className="flex gap-6 mt-3 justify-center md:justify-start flex-wrap text-gray-400">
                 <div className="flex items-center gap-1 hover:text-[#6B46C1] transition-all duration-300">
                   <BiPlus size={18} /> Total Arts: {user.totalArts}

@@ -1,10 +1,12 @@
 const mongoose = require("mongoose")
 
-const badges =  new mongoose.Schema({
+const badgeSchema =  new mongoose.Schema({
     name: { type: String, required: true },
     awardedAt: { type: Date, default: Date.now },
     expiresAt: { type: Date, required: true, index: { expires: 0 } }, 
 })
+
+badgeSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 const userSchema = new mongoose.Schema({
     username: {
@@ -41,7 +43,7 @@ const userSchema = new mongoose.Schema({
         type: String
     },
     badges: {
-        type: [badges],
+        type: [badgeSchema],
         default: []
     },
     resetPasswordToken: String,

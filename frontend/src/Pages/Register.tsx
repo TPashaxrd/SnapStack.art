@@ -56,9 +56,10 @@ export default function Register() {
 
   return (
     <>
-      <div className="absolute -top-24 -left-24 w-44 h-44 bg-[#6B46C1] rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
+      {/* <div className="absolute -top-24 -left-24 w-44 h-44 bg-[#6B46C1] rounded-full opacity-20 rotate-45 animate-pulse-slow"></div>
       <div className="absolute -bottom-28 -right-20 w-80 h-80 bg-[#7C3AED] rounded-full opacity-15 rotate-12 animate-pulse-slow"></div>
-      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#6B46C1]/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>
+      <div className="absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-[#6B46C1]/10 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl animate-pulse-slow"></div>*/}
+      <div className="bg-[#0F0F0F]">
       <Header />
       <div className="flex flex-col items-center justify-center mt-16 px-4 min-h-[calc(100vh-200px)] bg-[#0F0F0F]">
         <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl shadow-xl border border-gray-800/50 p-10 max-w-md w-full flex flex-col gap-6">
@@ -118,6 +119,7 @@ export default function Register() {
         </div>
       </div>
       <Footer />
+      </div>
     </>
   );
 }

@@ -36,7 +36,20 @@ const CreateUser = async (req, res) => {
         if(existingUsername) return res.status(400).json({ message: "Username already exist." })
         const hashed = await bcrypt.hash(password, 10)
 
-        const user = await User.create({ username, email, password: hashed, IP_Address })
+        const now = new Date()
+        const expires = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        
+        const user = await User.create({ 
+            username, 
+            email, 
+            password: hashed, 
+            IP_Address,
+            badges: [
+                { name: "New User", awardedAt: now, expiresAt: expires }
+            ]
+        })
+        
         req.session.userId = user._id;
 
         const info = await transporter.sendMail({
@@ -127,7 +140,7 @@ const CreateUser = async (req, res) => {
             else console.log("Email sent: " + info.response)
         })
 
-        res.status(201).json({ message: "Registered successfully", user: { id: user._id, username, email }})
+        res.status(201).json({ message: "Registered successfully", user: { id: user._id, username, email, badges: user.badges }})
     } catch (error) {
         res.status(500).json({ message: "Server Error" + `${error}` })
     }
@@ -201,6 +214,7 @@ const getArtsByUser = async (req, res) => {
                 bio: user.bio || "",
                 avatarUrl: user.avatarUrl || null,
                 totalArts: arts.length,
+                badges: user.badges,
                 socials: user.socials || { instagram: "", twitter: "", tiktok: "", youtube: "" },
                 publicEmail: user.publicEmail
             },
