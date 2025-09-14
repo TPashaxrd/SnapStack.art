@@ -49,7 +49,6 @@ const showAllArts = async (req, res) => {
   }
 };
 
-  
 const incrementViews = async (req, res) => {
     try {
       const { id } = req.params;
