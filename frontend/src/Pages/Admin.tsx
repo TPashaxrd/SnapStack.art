@@ -64,6 +64,14 @@ interface Contacts {
   date: string;
 }
 
+interface Reports {
+  _id: string;
+  user: string[];
+  reason: string;
+  artId: string;
+  date: string;
+}
+
 const Modal: React.FC<ModalProps> = ({ visible, onClose, children }) => {
   if (!visible) return null;
   return (
@@ -87,19 +95,22 @@ const Admin: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
   const [editArt, setEditArt] = useState<Art | null>(null);
-  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "banneds" | "arts" | "contacts">("dashboard");
+  const [activeSection, setActiveSection] = useState<"dashboard" | "users" | "reports" | "banneds" | "arts" | "contacts">("dashboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [contacts, setContacts] = useState<Contacts[]>([])
+  const [reports, setReports] = useState<Reports[]>([])
 
   const checkPassword = async () => {
     try {
-      const [totalsRes, usersRes, artsRes, bannedRes, contactRes] = await Promise.all([
+      const [totalsRes, usersRes, artsRes, bannedRes, contactRes, reportRes] = await Promise.all([
         axios.post("http://localhost:5000/api/dashboard/totals", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/users", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/arts", { password }, { withCredentials: true }),
         axios.post("http://localhost:5000/api/dashboard/banneds", { password}, { withCredentials: true}),
-        axios.post("http://localhost:5000/api/contact/all", { password }, { withCredentials: true })
+        axios.post("http://localhost:5000/api/contact/all", { password }, { withCredentials: true }),
+        axios.post("http://localhost:5000/api/report/show", { password }, { withCredentials: true })
       ]);
+      setReports(reportRes.data.reports || [])
       setContacts(contactRes.data.contacts || []);
       setArts(artsRes.data.arts || []);
       setUsers(usersRes.data.users || []);
@@ -208,7 +219,7 @@ const Admin: React.FC = () => {
         <aside className="w-full md:w-64 bg-[#1A1A1A] rounded-2xl p-6 shadow-xl border border-gray-800/50">
           <h2 className="text-2xl font-bold text-[#6B46C1] mb-6 tracking-tight">Admin Panel</h2>
           <ul className="space-y-3">
-            {["dashboard", "arts", "banneds", "users", "contacts"].map(section => (
+            {["dashboard", "reports", "arts", "banneds", "users", "contacts"].map(section => (
               <li
                 key={section}
                 className={`p-3 rounded-lg cursor-pointer transition-all duration-300 ${activeSection === section ? "bg-[#6B46C1] text-white font-medium" : "hover:bg-gray-800/50 text-gray-300 hover:text-[#6B46C1]"}`}
@@ -247,7 +258,7 @@ const Admin: React.FC = () => {
             <>
               {activeSection === "dashboard" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  {cards.map(({ icon, label, value, color }) => (
+                  {cards.map(({ icon, label, value }) => (
                     <div key={label} className={`bg-[#1A1A1A] rounded-2xl p-6 text-center shadow-xl border border-gray-800/50 hover:scale-105 transition-all flex flex-col items-center gap-3`}>
                       {icon}
                       <h3 className="text-2xl font-bold text-white">{value}</h3>
@@ -256,6 +267,36 @@ const Admin: React.FC = () => {
                   ))}
                 </div>
               )}
+
+            {activeSection === "reports" && (
+              <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl p-6 border border-gray-800/50">
+                <h2 className="text-2xl font-semibold text-[#6B46C1] mb-6 tracking-tight">Reports</h2>
+                {reports.length === 0 ? (
+                  <p className="text-gray-400 text-center">No reports available.</p>
+                ) : (
+                  <div className="space-y-4">
+                    {reports.map((item) => (
+                      <div
+                        key={item._id}
+                        className="bg-[#2D2D2D] p-4 rounded-lg border border-gray-800/50 hover:bg-[#3A3A3A] transition-all duration-300 cursor-pointer"
+                      >
+                        <div className="flex flex-col gap-2">
+                          <p className="text-gray-100 text-sm md:text-base font-medium">
+                            Reason: {item.reason}
+                          </p>
+                          <p className="text-gray-400 text-xs md:text-sm">
+                            Art ID: {item.artId}
+                          </p>
+                          <p className="text-gray-500 text-xs md:text-sm">
+                            Date: {new Date(item.date).toLocaleString()}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
               {activeSection === "contacts" && (
                 <div className="overflow-x-auto bg-[#1A1A1A] rounded-2xl shadow-xl p-6 border border-gray-800/50">

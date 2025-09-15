@@ -15,11 +15,12 @@ const SearchRoutes = require("./routes/Search");
 const PasswordRoutes = require("./routes/Password");
 const ContactRoutes = require("./routes/Contact");
 const SaveRoutes = require("./routes/Save");
+const ReportRoutes = require("./routes/Report");
 
 db();
 
 app.use(cors({
-    origin: "https://8d5bc1804e77.ngrok-free.app",
+    origin: "http://localhost:5173",
     credentials: true
 }));
 
@@ -52,6 +53,7 @@ app.use("/api/search", SearchRoutes)
 app.use("/api/password", PasswordRoutes)
 app.use("/api/contact", ContactRoutes)
 app.use("/api/save", SaveRoutes)
+app.use("/api/report", ReportRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const PORT = 5000;

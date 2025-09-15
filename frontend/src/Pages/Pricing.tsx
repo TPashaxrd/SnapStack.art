@@ -1,4 +1,3 @@
-import React from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
@@ -13,7 +12,6 @@ const Pricing = () => {
       <Header />
       <div className="min-h-screen bg-gradient-to-b from-[#0F0F0F] via-[#1A1A1A] to-[#0F0F0F] font-inter text-gray-100 py-16 px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-5xl md:text-6xl font-extrabold text-[#6B46C1] tracking-tight drop-shadow-lg mb-4">
               Choose Your Art Journey
@@ -29,9 +27,7 @@ const Pricing = () => {
             </a>
           </div>
 
-          {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-            {/* Free Plan */}
             <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl hover:-translate-y-2 hover:shadow-[#6B46C1]/60 transition-all duration-300 animate-fadeIn">
               <h2 className="text-2xl font-semibold text-gray-100 mb-4 text-center">Free</h2>
               <p className="text-4xl font-bold text-[#6B46C1] mb-4 text-center">$0</p>
@@ -49,7 +45,6 @@ const Pricing = () => {
               </button>
             </div>
 
-            {/* Hobbyist Plan */}
             <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl hover:-translate-y-2 hover:shadow-[#6B46C1]/60 transition-all duration-300 animate-fadeIn delay-100">
               <h2 className="text-2xl font-semibold text-gray-100 mb-4 text-center">Hobbyist</h2>
               <p className="text-4xl font-bold text-[#6B46C1] mb-4 text-center">$3.99/month</p>
@@ -67,7 +62,6 @@ const Pricing = () => {
               </a>
             </div>
 
-            {/* Pro Plan */}
             <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl hover:-translate-y-2 hover:shadow-[#6B46C1]/60 transition-all duration-300 animate-fadeIn delay-200">
               <h2 className="text-2xl font-semibold text-gray-100 mb-4 text-center">Pro</h2>
               <p className="text-4xl font-bold text-[#6B46C1] mb-4 text-center">$7.99/month</p>
@@ -85,7 +79,6 @@ const Pricing = () => {
               </a>
             </div>
 
-            {/* Elite Plan */}
             <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl hover:-translate-y-2 hover:shadow-[#6B46C1]/60 transition-all duration-300 animate-fadeIn delay-300">
               <h2 className="text-2xl font-semibold text-gray-100 mb-4 text-center">Elite</h2>
               <p className="text-4xl font-bold text-[#6B46C1] mb-4 text-center">$14.99/month</p>
@@ -104,7 +97,6 @@ const Pricing = () => {
             </div>
           </div>
 
-          {/* Comparison Table */}
           <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 mb-16 shadow-xl">
             <h2 className="text-2xl font-semibold text-[#6B46C1] mb-4 text-center">Plan Comparison</h2>
             <table className="w-full text-gray-300">
@@ -157,7 +149,6 @@ const Pricing = () => {
             </table>
           </div>
 
-          {/* Testimonials */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
             <div className="bg-[#1A1A1A] backdrop-blur-lg rounded-2xl border border-gray-800/50 p-6 shadow-xl">
               <p className="text-gray-300 italic mb-2">"Pro plan's analytics helped me grow my audience!"</p>

@@ -52,6 +52,26 @@ export default function Arts() {
   }, [id]);
   
 
+  async function SubmitReport(artId: string) {
+    const reason = prompt("What's your reason?")
+    if(!reason || !artId) {
+      alert("All fields are required.")
+      return;
+    } 
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/api/report",
+        { artId, reason },
+        { withCredentials: true }
+      )
+      if(res.status === 201) {
+        alert("Successfully your report has submitted.")
+      }
+    } catch (error: any) {
+      alert(error.message)
+    }
+  }
+
   function ShowArtToggle() {
     setShowArt(!showArt)
   }
@@ -105,6 +125,7 @@ export default function Arts() {
         <span className="absolute inset-0 rounded-xl bg-gradient-to-r from-red-500 to-pink-500 opacity-0 group-hover:opacity-100 blur-sm transition duration-300"></span>
         <span className="relative z-10 tracking-wider">⟵ BACK</span>
       </button>
+      <button onClick={() => SubmitReport(art?._id)} className="bg-[#0F0F0F] px-2 py-2 text-red-500 font-inter text-xl hover:text-red-500/70">Report</button>
     </div>
       <div className="flex justify-center items-center min-h-screen bg-[#0F0F0F] font-inter px-4">
         <div className="mb-12 mt-11 w-full max-w-3xl bg-[#1A1A1A] backdrop-blur-lg rounded-2xl shadow-xl border border-gray-800/50 overflow-hidden">
