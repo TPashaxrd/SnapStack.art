@@ -190,6 +190,12 @@ const unsaveArt = async (id: string) => {
 
               <h2 className="text-2xl font-bold text-[#6B46C1] mb-4">Saved Arts</h2>
 
+              {arts.length === 0 ? (
+                <></>
+              ) : (
+                <a>Saveds is temp.</a>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {arts
                   .filter(art => saveds.includes(art._id))

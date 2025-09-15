@@ -67,8 +67,13 @@ export default function Arts() {
       if(res.status === 201) {
         alert("Successfully your report has submitted.")
       }
+      if(res.status === 400) {
+        alert("You're already reported.")
+      }
     } catch (error: any) {
-      alert(error.message)
+      if(error.response && error.response.status === 400) {
+        alert("You're already reported.")
+      }
     }
   }
 

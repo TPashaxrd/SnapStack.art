@@ -35,7 +35,7 @@ async function checkAndAwardBadge(userId) {
       });
 
       await user.save();
-      console.log(`Kullanıcıya otomatik olarak ${badgeName} verildi.`);
+      // console.log(`Kullanıcıya otomatik olarak ${badgeName} verildi.`);
     }
   } catch (err) {
     console.error(err);
@@ -47,8 +47,8 @@ async function checkAndAwardBadge(userId) {
 
 const CreateArt = async (req, res) => {
   try {
-    console.log("Session:", req.session); 
-    console.log("UserId in session:", req.session?.userId);
+    // console.log("Session:", req.session); 
+    // console.log("UserId in session:", req.session?.userId);
 
     const { title, tags } = req.body;
 

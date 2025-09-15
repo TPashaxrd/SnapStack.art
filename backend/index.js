@@ -16,7 +16,9 @@ const PasswordRoutes = require("./routes/Password");
 const ContactRoutes = require("./routes/Contact");
 const SaveRoutes = require("./routes/Save");
 const ReportRoutes = require("./routes/Report");
+const dotenv = require("dotenv")
 
+dotenv.config()
 db();
 
 app.use(cors({
@@ -29,9 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 const store = MongoStore.create({
     mongoUrl: process.env.MONGO_URL,
     collectionName: "sessions"
-  });
+});
+
 app.use(session({
-    secret: "ITS_MY_SECRET",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     store,
@@ -45,16 +48,22 @@ app.use(session({
   
 
 app.use("/api/user",  AuthRoutes);
-app.use("/api/arts",  ArtRoutes);
-app.use("/api/subs",  SubsRoutes)
-app.use("/api/settings",  SettingsRoutes)
-app.use("/api/dashboard",  DashboardRoutes)
-app.use("/api/search", SearchRoutes)
-app.use("/api/password", PasswordRoutes)
-app.use("/api/contact", ContactRoutes)
-app.use("/api/save", SaveRoutes)
-app.use("/api/report", ReportRoutes)
+app.use("/api/arts", limiter, ArtRoutes);
+app.use("/api/subs", limiter, SubsRoutes)
+app.use("/api/settings", limiter, SettingsRoutes)
+app.use("/api/dashboard", limiter, DashboardRoutes)
+app.use("/api/search", limiter, SearchRoutes)
+app.use("/api/password", limiter, PasswordRoutes)
+app.use("/api/contact", limiter, ContactRoutes)
+app.use("/api/save", limiter, SaveRoutes)
+app.use("/api/report", limiter, ReportRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+app.use('/', (req, res) => {
+  res.json(
+    { message: "Here is API of SnapStack!", contact: "Contact: toprak@cordision.com", mainUrl: "https://snapstack.art" },
+  )
+})
 
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

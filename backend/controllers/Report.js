@@ -1,16 +1,21 @@
 const express = require("express")
-const Report = require("../models/Report")
+const Report = require("../models/Report");
 
 const CreateReport = async (req, res) => {
     try {
         const { reason, artId } = req.body;
+        const userId = req.session.userId
         if(!req.session.userId) {
             return res.status(400).json({ message: "You must be logged in."})
         }
         if(!reason || !artId) {
             return res.status(400).json({ message: "All fields are required." })
         }
-        const userId = req.session.userId
+        const exist = await Report.findOne({ user: userId, artId: artId });
+        if(exist) {
+            res.status(400).json({ message: "Already reported." })
+            return;
+        }
 
         const newreport = new Report({
             user: userId,

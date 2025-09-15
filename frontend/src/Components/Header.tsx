@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { BiHome, BiPhone, BiSearch, BiUpload, BiUser } from "react-icons/bi";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaUpload } from "react-icons/fa";
 
 interface MeData {
   username: string;
@@ -12,6 +12,11 @@ interface MeData {
 export default function Header() {
   const [userData, setUserData] = useState<MeData | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  function logout() {
+    axios.get("http://localhost:5000/api/user/logout")
+    setTimeout(() => window.location.href = "/", 200)
+  }
 
   useEffect(() => {
     const fetchMe = async () => {
@@ -68,7 +73,7 @@ export default function Header() {
                 <span className="text-sm font-semibold">Settings</span>
               </a>
               <button
-                onClick={() => (window.location.href = "/logout")}
+                onClick={logout}
                 className="p-2 rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-red-500/50 transition-all duration-300 flex items-center gap-2"
               >
                 <FaSignOutAlt size={24} />
@@ -90,6 +95,11 @@ export default function Header() {
           >
             <BiSearch size={24} />
             <span className="text-sm font-semibold">Search</span>
+          </a>
+          <a
+            href="/create"
+            className="p-2 rounded-lg hover:bg-[#2D2D2D] hover:text-[#6B46C1] transition-all duration-300 flex items-center gap-2">
+              <FaUpload size={23} /> Upload
           </a>
         </nav>
 
@@ -138,7 +148,7 @@ export default function Header() {
                 </a>
                 
                 <button
-                  onClick={() => (window.location.href = "/logout")}
+                  onClick={logout}
                   className="p-2 rounded-lg bg-red-500 hover:bg-red-600 hover:shadow-red-500/50 transition-all duration-300 flex items-center gap-2 text-white"
                 >
                   <FaSignOutAlt size={24} />
